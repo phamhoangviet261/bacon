@@ -1,0 +1,1 @@
+1. Nó chứa mọi thứ được tái sử dụng trong ứng dụng.
