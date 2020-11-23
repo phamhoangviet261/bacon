@@ -7,4 +7,15 @@ const db = mysql.createConnection({
     'user': process.env.DB_USER || ''
 });
 
+db.connect((err) => {
+
+    if (err) {
+
+        throw err;
+
+    }
+    console.log('Connected!');
+
+});
+
 module.exports = db;

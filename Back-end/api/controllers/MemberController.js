@@ -1,113 +1,215 @@
+const jwt = require('jsonwebtoken');
+const mysql = require('mysql');
+const crypto = require('crypto');
+
 const db = require('./../db');
 
+function sha256(password, salt){
+    const hash = crypto.createHmac('sha256', salt); /** Hashing algorithm sha512 */
+    hash.update(password);
+    const value = hash.digest('hex');
+    return value;
+    
+};
+
+function saltHashPassword(password) {
+    return sha256(password, process.env.SALT);
+}
 module.exports = {
-    'delete': (req, res) => {
 
-        const query = 'DELETE FROM Members WHERE id_member = ?';
+    'login': (req, res) => {
+        if( !req.body.hasOwnProperty('username')) {
+            res.status(400).
+            type('json').
+            json({
+                'message': 'Thiếu thông tin khi đăng nhập',
+                'errors': [
+                    {
+                        'message': 'Thiếu tên tài khoản',
+                        'field': 'username'
+                    }
+                ]
+            });
+
+            return;
+        }
+
+        if( !req.body.hasOwnProperty('password')) {
+            res.status(400).
+            type('json').
+            json({
+                'message': 'Thiếu thông tin khi đăng nhập',
+                'errors': [
+                    {
+                        'message': 'Thiếu mật khẩu',
+                        'field': 'password'
+                    }
+                ]
+            });
+
+            return;
+        }
+
+        const sql = 'select password from Members where username = ?';
+        const username = [req.body.username];
+        const query = mysql.format(
+            sql,
+            username
+        );
 
         db.query(
             query,
-            [req.params.productId],
-            // eslint-disable-next-line no-unused-vars
-            (err, response) => {
-
+            (err, result) => {
                 if (err) {
-
+                    res.status(500).
+                    type('json').
+                    json({
+                        'message': 'Đăng nhập thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ'
+                    });
                     throw err;
-
                 }
-                res.json({'message': 'Delete success!'});
+                if (!result) {
+                    res.status(404).
+                        type('json').
+                        json({
+                            'message': 'Thông tin không chính xác',
+                            'errors': {
+                                'username': 'Tài khoản không tồn tại'
+                            }
+                        });
 
+                    return;
+                }
+
+                if (result.password === res.password) {
+                    const payload = {
+                        'username': res.username
+                    };
+                    const token = jwt.sign(
+                        payload,
+                        process.env.JWT_SECRET
+                    );
+
+                    res.status(200).
+                        type('json').
+                        json({
+                            'message': 'Đăng nhập thành công',
+                            token
+                        });
+
+                    return;
+                }
+
+                res.status(400).
+                    type('json').
+                    json({
+                        'message': 'Thông tin không chính xác',
+                        'errors': [
+                            {
+                                'message': 'Mật khẩu không đúng',
+                                'filed': 'password'
+                            }
+                        ]
+                    });
             }
         );
-
     },
-    'detail': (req, res) => {
 
-        const query = 'SELECT * FROM Members WHERE id_member = ?';
+    'register': (req, res) => {
+        if( !req.body.hasOwnProperty('username')) {
+            res.status(400).
+            type('json').
+            json({
+                'message': 'Thiếu thông tin khi đăng kí',
+                'errors': [
+                    {
+                        'message': 'Thiếu tên tài khoản',
+                        'field': 'username'
+                    }
+                ]
+            });
+
+            return;
+        }
+
+        if( !req.body.hasOwnProperty('password')) {
+            res.status(400).
+            type('json').
+            json({
+                'message': 'Thiếu thông tin khi đăng kí',
+                'errors': [
+                    {
+                        'message': 'Thiếu mật khẩu',
+                        'field': 'password'
+                    }
+                ]
+            });
+
+            return;
+        }
+
+        if( !req.body.hasOwnProperty('email')) {
+            res.status(400).
+            type('json').
+            json({
+                'message': 'Thiếu thông tin khi đăng kí',
+                'errors': [
+                    {
+                        'message': 'Thiếu email',
+                        'field': 'email'
+                    }
+                ]
+            });
+
+            return;
+        }
+        const hashPassword = saltHashPassword(req.body.password);
+        const sql = 'INSERT INTO Members (username, password, email) VALUES ( ?, ?, ?);'
+        const value = [
+            req.body.username,
+            hashPassword,
+            req.body.email
+        ];
+
+        const query = mysql.format(
+            sql,
+            value
+        );
 
         db.query(
             query,
-            [req.params.memberId],
-            (err, response) => {
-
+            (err, result) => {
                 if (err) {
-
-                    throw err;
-
+                    if( err.code === 'ER_DUP_ENTRY') {
+                        res.status(500).
+                        type('json').
+                        json({
+                            'message': 'Đăng kí thất bại',
+                            'errors': [
+                                {
+                                    'message': 'Tài khoản đã tồn tại',
+                                    'field': 'username'
+                                }
+                            ]
+                        });
+                        return;
+                    }
+                    
+                    res.status(500).
+                    type('json').
+                    json({
+                        'message': 'Đăng kí thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ'
+                    });
+                    return;
                 }
-                res.json(response[0]);
-
+                
+                res.status(201).
+                type('json').
+                json({
+                    'message': 'Đăng kí thành công'
+                });
             }
         );
-
-    },
-
-    'get': (req, res) => {
-
-        const query = 'SELECT * FROM Members';
-
-        db.query(
-            query,
-            (err, response) => {
-
-                if (err) {
-
-                    throw err;
-
-                }
-                res.json(response);
-
-            }
-        );
-
-    },
-    'store': (req, res) => {
-
-        const data = req.body;
-        const query = 'INSERT INTO Members SET ?';
-
-        db.query(
-            query,
-            [data],
-            // eslint-disable-next-line no-unused-vars
-            (err, response) => {
-
-                if (err) {
-
-                    throw err;
-
-                }
-                res.json({'message': 'Insert success!'});
-
-            }
-        );
-
-    },
-    'update': (req, res) => {
-
-        const data = req.body;
-        const {productId} = req.params;
-        const query = 'UPDATE Members SET ? WHERE id_member = ?';
-
-        db.query(
-            query,
-            [
-                data,
-                productId
-            ],
-            // eslint-disable-next-line no-unused-vars
-            (err, response) => {
-
-                if (err) {
-
-                    throw err;
-
-                }
-                res.json({'message': 'Update success!'});
-
-            }
-        );
-
     }
+
 };
