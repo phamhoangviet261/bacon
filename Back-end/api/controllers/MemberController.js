@@ -4,48 +4,56 @@ const crypto = require('crypto');
 
 const db = require('./../db');
 
-function sha256(password, salt){
+/**
+ * @param   {string}    password    password
+ * @param   {string}    salt        salt for hash
+ * @returns {string}                string after hash
+ */
+function sha256 (password, salt) {
     const hash = crypto.createHmac('sha256', salt); /** Hashing algorithm sha512 */
     hash.update(password);
-    const value = hash.digest('hex');
-    return value;
-    
+    const result = hash.digest('hex');
+    return result;
 };
 
-function saltHashPassword(password) {
+/**
+ * @param   {string} password       password
+ * @returns {string}                string after hash
+ */
+function saltHashPassword (password) {
     return sha256(password, process.env.SALT);
 }
 module.exports = {
 
-    'login': (req, res) => {
-        if( !req.body.hasOwnProperty('username')) {
-            res.status(400).
-            type('json').
-            json({
-                'message': 'Thiếu thông tin khi đăng nhập',
-                'errors': [
-                    {
-                        'message': 'Thiếu tên tài khoản',
-                        'field': 'username'
-                    }
-                ]
-            });
+    login: (req, res) => {
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'username')) {
+            res.status(400)
+                .type('json')
+                .json({
+                    message: 'Thiếu thông tin khi đăng nhập',
+                    errors: [
+                        {
+                            message: 'Thiếu tên tài khoản',
+                            field: 'username',
+                        },
+                    ],
+                });
 
             return;
         }
 
-        if( !req.body.hasOwnProperty('password')) {
-            res.status(400).
-            type('json').
-            json({
-                'message': 'Thiếu thông tin khi đăng nhập',
-                'errors': [
-                    {
-                        'message': 'Thiếu mật khẩu',
-                        'field': 'password'
-                    }
-                ]
-            });
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'password')) {
+            res.status(400)
+                .type('json')
+                .json({
+                    message: 'Thiếu thông tin khi đăng nhập',
+                    errors: [
+                        {
+                            message: 'Thiếu mật khẩu',
+                            field: 'password',
+                        },
+                    ],
+                });
 
             return;
         }
@@ -54,28 +62,28 @@ module.exports = {
         const username = [req.body.username];
         const query = mysql.format(
             sql,
-            username
+            username,
         );
 
         db.query(
             query,
             (err, result) => {
                 if (err) {
-                    res.status(500).
-                    type('json').
-                    json({
-                        'message': 'Đăng nhập thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ'
-                    });
+                    res.status(500)
+                        .type('json')
+                        .json({
+                            message: 'Đăng nhập thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
+                        });
                     throw err;
                 }
                 if (!result) {
-                    res.status(404).
-                        type('json').
-                        json({
-                            'message': 'Thông tin không chính xác',
-                            'errors': {
-                                'username': 'Tài khoản không tồn tại'
-                            }
+                    res.status(404)
+                        .type('json')
+                        .json({
+                            message: 'Thông tin không chính xác',
+                            errors: {
+                                username: 'Tài khoản không tồn tại',
+                            },
                         });
 
                     return;
@@ -83,133 +91,133 @@ module.exports = {
 
                 if (result.password === res.password) {
                     const payload = {
-                        'username': res.username
+                        username: res.username,
                     };
                     const token = jwt.sign(
                         payload,
-                        process.env.JWT_SECRET
+                        process.env.JWT_SECRET,
                     );
 
-                    res.status(200).
-                        type('json').
-                        json({
-                            'message': 'Đăng nhập thành công',
-                            token
+                    res.status(200)
+                        .type('json')
+                        .json({
+                            message: 'Đăng nhập thành công',
+                            token,
                         });
 
                     return;
                 }
 
-                res.status(400).
-                    type('json').
-                    json({
-                        'message': 'Thông tin không chính xác',
-                        'errors': [
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thông tin không chính xác',
+                        errors: [
                             {
-                                'message': 'Mật khẩu không đúng',
-                                'filed': 'password'
-                            }
-                        ]
+                                message: 'Mật khẩu không đúng',
+                                filed: 'password',
+                            },
+                        ],
                     });
-            }
+            },
         );
     },
 
-    'register': (req, res) => {
-        if( !req.body.hasOwnProperty('username')) {
-            res.status(400).
-            type('json').
-            json({
-                'message': 'Thiếu thông tin khi đăng kí',
-                'errors': [
-                    {
-                        'message': 'Thiếu tên tài khoản',
-                        'field': 'username'
-                    }
-                ]
-            });
+    register: (req, res) => {
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'username')) {
+            res.status(400)
+                .type('json')
+                .json({
+                    message: 'Thiếu thông tin khi đăng kí',
+                    errors: [
+                        {
+                            message: 'Thiếu tên tài khoản',
+                            field: 'username',
+                        },
+                    ],
+                });
 
             return;
         }
 
-        if( !req.body.hasOwnProperty('password')) {
-            res.status(400).
-            type('json').
-            json({
-                'message': 'Thiếu thông tin khi đăng kí',
-                'errors': [
-                    {
-                        'message': 'Thiếu mật khẩu',
-                        'field': 'password'
-                    }
-                ]
-            });
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'password')) {
+            res.status(400)
+                .type('json')
+                .json({
+                    message: 'Thiếu thông tin khi đăng kí',
+                    errors: [
+                        {
+                            message: 'Thiếu mật khẩu',
+                            field: 'password',
+                        },
+                    ],
+                });
 
             return;
         }
 
-        if( !req.body.hasOwnProperty('email')) {
-            res.status(400).
-            type('json').
-            json({
-                'message': 'Thiếu thông tin khi đăng kí',
-                'errors': [
-                    {
-                        'message': 'Thiếu email',
-                        'field': 'email'
-                    }
-                ]
-            });
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'email')) {
+            res.status(400)
+                .type('json')
+                .json({
+                    message: 'Thiếu thông tin khi đăng kí',
+                    errors: [
+                        {
+                            message: 'Thiếu email',
+                            field: 'email',
+                        },
+                    ],
+                });
 
             return;
         }
         const hashPassword = saltHashPassword(req.body.password);
-        const sql = 'INSERT INTO Members (username, password, email) VALUES ( ?, ?, ?);'
+        const sql = 'INSERT INTO Members (username, password, email) VALUES ( ?, ?, ?);';
         const value = [
             req.body.username,
             hashPassword,
-            req.body.email
+            req.body.email,
         ];
 
         const query = mysql.format(
             sql,
-            value
+            value,
         );
 
         db.query(
             query,
             (err, result) => {
                 if (err) {
-                    if( err.code === 'ER_DUP_ENTRY') {
-                        res.status(500).
-                        type('json').
-                        json({
-                            'message': 'Đăng kí thất bại',
-                            'errors': [
-                                {
-                                    'message': 'Tài khoản đã tồn tại',
-                                    'field': 'username'
-                                }
-                            ]
-                        });
+                    if (err.code === 'ER_DUP_ENTRY') {
+                        res.status(500)
+                            .type('json')
+                            .json({
+                                message: 'Đăng kí thất bại',
+                                errors: [
+                                    {
+                                        message: 'Tài khoản đã tồn tại',
+                                        field: 'username',
+                                    },
+                                ],
+                            });
                         return;
                     }
-                    
-                    res.status(500).
-                    type('json').
-                    json({
-                        'message': 'Đăng kí thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ'
-                    });
+
+                    res.status(500)
+                        .type('json')
+                        .json({
+                            message: 'Đăng kí thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
+                        });
                     return;
                 }
-                
-                res.status(201).
-                type('json').
-                json({
-                    'message': 'Đăng kí thành công'
-                });
-            }
+
+                res.status(201)
+                    .type('json')
+                    .json({
+                        message: 'Đăng kí thành công',
+                    });
+            },
         );
-    }
+    },
 
 };
