@@ -20,7 +20,7 @@ function sha256 (password, salt) {
  * @param   {string} password       password
  * @returns {string}                string after hash
  */
-function saltHashPassword (password) {
+function hashPassword (password) {
     return sha256(password, process.env.SALT);
 }
 module.exports = {
@@ -88,10 +88,12 @@ module.exports = {
 
                     return;
                 }
+                const password = hashPassword(req.body.password);
 
-                if (result.password === res.password) {
+                // username là unique key nên chỉ trả về 1 item
+                if (result[0].password === password) {
                     const payload = {
-                        username: res.username,
+                        username: req.body.username,
                     };
                     const token = jwt.sign(
                         payload,
@@ -99,10 +101,10 @@ module.exports = {
                     );
 
                     res.status(200)
+                        .cookie('token_' + req.body.username, token, { maxAge: process.env.JWT_EXPIRY_SECONDS * 1000 })
                         .type('json')
                         .json({
                             message: 'Đăng nhập thành công',
-                            token,
                         });
 
                     return;
@@ -171,11 +173,11 @@ module.exports = {
 
             return;
         }
-        const hashPassword = saltHashPassword(req.body.password);
+        const password = hashPassword(req.body.password);
         const sql = 'INSERT INTO Members (username, password, email) VALUES ( ?, ?, ?);';
         const value = [
             req.body.username,
-            hashPassword,
+            password,
             req.body.email,
         ];
 
