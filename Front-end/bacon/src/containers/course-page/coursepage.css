@@ -1,0 +1,123 @@
+.video-screen {
+    width: 70%;
+    height: calc(70vw/1.77);
+    /* cho chiều cao tỉ lệ 1/1.77 với chiều rộng */
+    background-color: violet;
+    position: absolute;
+    top:80px;
+}
+.video-screen iframe{
+    width: 100%;
+    height: calc(70vw/1.77);/* cho chiều cao tỉ lệ 1/1.77 với chiều rộng */
+}
+
+.menu-course {
+    width: 30%;
+    height: calc(70vw/1.77);
+    border: tomato solid 2px;
+    position: absolute;
+    top: 80px;
+    right: 0;
+    overflow: scroll;
+}
+.content {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    color: #000;
+    border: #fff solid 1px;
+}
+
+.lesson{
+    width: 100%;
+    border: #fff solid 1px;
+    outline: none;
+} 
+.lesson:hover{
+    background-color: teal;
+    cursor: pointer;
+}
+/* EXAMINATION */
+.button-border{
+    position: absolute;
+    margin-top: 740px;
+}
+.button {
+    background-color: #c47135;
+    border: none;
+    color: #ffffff;
+    outline: none;
+    padding: 12px 40px 10px;
+    position: relative;
+  }
+  .button:before,
+  .button:after {
+    border: 0 solid transparent;
+    transition: all 0.25s;
+    content: '';
+    height: 24px;
+    position: absolute;
+    width: 24px;
+  }
+  .button:before {
+    border-top: 2px solid #c47135;
+    left: 0px;
+    top: -5px;
+  }
+  .button:after {
+    border-bottom: 2px solid #c47135;
+    bottom: -5px;
+    right: 0px;
+  }
+  .button:hover {
+    background-color: #c47135;
+  }
+  .button:hover:before,
+  .button:hover:after {
+    height: 100%;
+    width: 100%;
+  }
+  /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* EXAMINATION */
+.exam {
+  position: absolute;
+  margin-top: 800px;
+  display: none;
+}
