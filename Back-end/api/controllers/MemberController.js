@@ -101,7 +101,7 @@ module.exports = {
                     );
 
                     res.status(200)
-                        .cookie('token', token, { maxAge: process.env.JWT_EXPIRY_SECONDS * 1000 })
+                        .cookie('token', token)
                         .type('json')
                         .json({
                             message: 'Đăng nhập thành công',
@@ -174,16 +174,16 @@ module.exports = {
             return;
         }
         const password = hashPassword(req.body.password);
-        const sql = 'INSERT INTO Members (username, password, email) VALUES ( ?, ?, ?);';
-        const value = [
-            req.body.username,
-            password,
-            req.body.email,
-        ];
+        const sql = 'CALL `InsertMember`(?, ?, ?, ?);';
 
         const query = mysql.format(
             sql,
-            value,
+            [
+                req.body.username,
+                password,
+                req.body.email,
+                'Member',
+            ],
         );
 
         db.query(
