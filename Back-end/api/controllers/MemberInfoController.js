@@ -23,10 +23,16 @@ module.exports = {
                 .json({
                     message: 'Xác thực thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
                 });
+            return;
         }
-        // trùng username thì chỉ cần trả lại thông tin mà không cần kiểm tra thêm
+        // trùng username thì không cần kiểm tra thêm
         if (req.params.username === payload.username) {
-            const sql = 'select id_member from Members where username = ?';
+            next();
+        } else {
+            // Không trùng username thì client có quyền không ?
+
+            // kiểm tra quyền client
+            const sql = 'select id_member, role from Members where username = ?';
             const query = mysql.format(
                 sql,
                 [payload.username],
@@ -45,87 +51,34 @@ module.exports = {
                     }
                     // Tìm thấy id
                     // do username là unique key nên chỉ trả về đúng 1 kết quả
-                    if (result.length > 0) {
-                        req.app.locals.id_member = result[0].id_member;
-                        next();
-                    }
-                },
-            );
-        } else {
-            // Không trùng username thì xem username có tồn tại và client có quyền không ?
-
-            // kiểm tra tồn tại
-            let sql = 'select id_member from Members where username = ?';
-            let query = mysql.format(
-                sql,
-                [req.params.username],
-            );
-
-            db.query(
-                query,
-                (err, result) => {
-                    if (err) {
-                        res.status(500)
-                            .type('json')
-                            .json({
-                                message: 'Có lỗi xảy ra khi tìm kiếm tài khoản. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
-                            });
-                        return;
-                    }
-
                     if (result.length === 0) {
-                        res.status(404)
+                        res.status(400)
                             .type('json')
                             .json({
-                                message: 'Tài khoản không tồn tại',
-                            });
-                    }
-                },
-            );
-
-            // kiểm tra quyền client
-            sql = 'select id_member, role from Members where username = ?';
-            query = mysql.format(
-                sql,
-                [payload.username],
-            );
-
-            db.query(
-                query,
-                (err, result) => {
-                    if (err) {
-                        res.status(500)
-                            .type('json')
-                            .json({
-                                message: 'Xác thực thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
+                                message: 'Token không họp lệ',
                             });
                         return;
                     }
-                    // Tìm thấy id
-                    // do username là unique key nên chỉ trả về đúng 1 kết quả
-                    if (result.length > 0) {
-                        if (result[0].role === 'member') {
-                            res.status(403)
-                                .type('json')
-                                .json({
-                                    message: 'Không đủ quyền hạn truy cập thông tin này',
-                                });
-                        } else {
-                            req.app.locals.id_member = result[0].id_member;
-                            req.app.locals.role_member = result[0].role;
-                        }
-                        next();
+                    if (result[0].role === 'member') {
+                        res.status(403)
+                            .type('json')
+                            .json({
+                                message: 'Không đủ quyền hạn truy cập thông tin này',
+                            });
+                        return;
                     }
+                    next();
                 },
             );
         }
     },
 
     show: (req, res) => {
-        const sql = 'select name, sex, date_birth, date_registration from MembersInfo where id_member = ?';
+        const sql = 'select name, sex, date_birth, date_registration from MembersInfo info JOIN Members mem ON info.id_member = mem.id_member' +
+                    ' where mem.username = ?';
         const query = mysql.format(
             sql,
-            [req.params.id_member],
+            [req.params.username],
         );
 
         db.query(
@@ -139,7 +92,8 @@ module.exports = {
                         });
                     throw err;
                 }
-                if (!result) {
+
+                if (result.length < 1) {
                     res.status(404)
                         .type('json')
                         .json({
@@ -216,17 +170,20 @@ module.exports = {
             return;
         }
 
-        const sql = 'UPDATE INTO Members (name, sex, date_birth) VALUES ( ?, ?, ?);';
+        const sql = 'UPDATE MembersInfo info JOIN Members mem ON info.id_member = mem.id_member' +
+                    ' SET name = ?, sex = ?, date_birth = ?' +
+                    ' WHERE mem.username = ?';
 
         const query = mysql.format(
             sql,
-            [req.body.name, req.body.sex, req.body.date_birth],
+            [req.body.name, req.body.sex, req.body.date_birth, req.params.username],
         );
 
         db.query(
             query,
             (err, result) => {
                 if (err) {
+                    console.log(err);
                     res.status(500)
                         .type('json')
                         .json({
