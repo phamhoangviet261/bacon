@@ -101,7 +101,7 @@ module.exports = {
                     );
 
                     res.status(200)
-                        .cookie('token_' + req.body.username, token, { maxAge: process.env.JWT_EXPIRY_SECONDS * 1000 })
+                        .cookie('token', token, { maxAge: process.env.JWT_EXPIRY_SECONDS * 1000 })
                         .type('json')
                         .json({
                             message: 'Đăng nhập thành công',
@@ -191,7 +191,7 @@ module.exports = {
             (err, result) => {
                 if (err) {
                     if (err.code === 'ER_DUP_ENTRY') {
-                        res.status(500)
+                        res.status(400)
                             .type('json')
                             .json({
                                 message: 'Đăng kí thất bại',
