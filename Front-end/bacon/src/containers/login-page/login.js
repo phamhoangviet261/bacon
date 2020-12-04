@@ -33,7 +33,7 @@ class LoginForm extends React.Component{
     render(){
       return(
         <div id="loginform">
-          <FormHeader title="huhu" />
+          <FormHeader title="L O G I N" />
           <Form onSubmit={this.handleSubmit} handleUNFunc={this.handleUsernameChange} handlePWFunc={this.handlePasswordChange}/>
           <div id="button" className="row" >
             <button onSubmit={this.handleSubmit}

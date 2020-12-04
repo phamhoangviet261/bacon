@@ -7,18 +7,19 @@ class Course extends Component {
     constructor(props){
         super(props);
         this.state = {
-            idVideo: ["0", "1", "2"],
+            idVideo: ["0", "1", "2", "3", "4", "5", "6", "7", "8"],
             name: ["a", "b", "c"],
             isView: [ false, false, false],
             linkVideo: [
                 "https://www.youtube.com/embed/UCXao7aTDQM",
                 "https://www.youtube.com/embed/0I647GU3Jsc",
-                "https://www.youtube.com/embed/UCXao7aTDQM"
+                "https://www.youtube.com/embed/V5GS5ANG96M"
             ],
             linkVideoPlaying: "https://www.youtube.com/embed/UCXao7aTDQM" 
             
         }
         this.changeLinkVideo = this.changeLinkVideo.bind(this);
+        this.showLesson = this.showLesson.bind(this)
     }
     changeLinkVideo(id){
         let link = this.state.linkVideo[parseInt(id)];
@@ -42,6 +43,18 @@ class Course extends Component {
           }
     }
 
+    showLesson (id){
+        id = parseInt(id) + 2;
+        console.log("Show Lesson " + id)
+        
+        let x = document.querySelector("#root > div > div > div:nth-child(4) > div.menu-course > div:nth-child("+id+") > div")
+        if (x.style.display === "none" || x.style.display === "") {
+            x.style.display = "block";
+            // x.scrollIntoView();
+          } else {
+            x.style.display = "none";
+          }
+    }
 
     render() {
         return (
@@ -65,23 +78,13 @@ class Course extends Component {
                         id = {parseInt(item) + 1}
                         name={this.state.name[parseInt(item)]}
                         //name = this.state.name[id]
-                        time="1:23"
-                        link=""
-                        changeLink={() => this.changeLinkVideo(item)}
+                        showLesson={() => this.showLesson(item)}
+                        showExamination={this.showExamination}
                         >{item}</Lesson>
                     ))}
                 </div>
             
-                <div className="button-border">
-                    <button href="#exam" className="button" onClick={this.showExamination}>EXAM</button>
-                </div>
-                <div className="exam" id="exam">
-                    <Exam name={this.props.name}>
-                        {/* this.props.name: đưa cái name dc truyền từ conponent ngoài 
-                        của CoursePage vào component Exam  */}
-                        
-                    </Exam>
-                </div>
+               
                 
             </div>
         )
@@ -89,10 +92,24 @@ class Course extends Component {
 }
 
 const Lesson = props => (
-    <button className="lesson" onClick={props.changeLink}>
-        <p>{props.id}. {props.name}</p>
-        <p>{props.time}</p>
-    </button>
+    <div className="lesson">
+        <button onClick={props.showLesson}>
+        <div className="content-lesson">
+            <div className="isActiveBar"></div>
+            <div className="name-lesson">
+                <p>{props.id}{props.name}</p>
+            </div>
+        </div>
+        </button>
+        <div className="menu-lesson">
+            <button><div className="video-lesson">Watch Video</div></button>
+            <button><div className="test-lesson">Do The Test</div></button>
+            <button><div className="book-lesson">Reading Book</div></button>
+        
+        
+        
+        </div>
+    </div>
 );
 
 

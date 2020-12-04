@@ -27,16 +27,33 @@
     color: #000;
     border: #fff solid 1px;
 }
-
+/* LESSON */
 .lesson{
     width: 100%;
     border: #fff solid 1px;
     outline: none;
 } 
-.lesson:hover{
-    background-color: teal;
-    cursor: pointer;
+.lesson button{
+  width: 100%;
+  cursor: pointer;
 }
+/*  */
+.content-lesson{
+    display: flex;
+}
+.isActiveBar{
+  width: 10px;
+  height: 45px;
+  background-color: #c47135;
+}
+.name-lesson{
+  margin-left: 10px;
+}
+.menu-lesson{
+  display: none;
+}
+
+
 /* EXAMINATION */
 .button-border{
     position: absolute;
