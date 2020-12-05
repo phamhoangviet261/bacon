@@ -8,9 +8,15 @@ class Course extends Component {
         super(props);
         this.state = {
             idVideo: ["0", "1", "2", "3", "4", "5", "6", "7", "8"],
-            name: ["a", "b", "c"],
+            name: ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
             isView: [ false, false, false],
             linkVideo: [
+                "https://www.youtube.com/embed/UCXao7aTDQM",
+                "https://www.youtube.com/embed/0I647GU3Jsc",
+                "https://www.youtube.com/embed/V5GS5ANG96M",
+                "https://www.youtube.com/embed/UCXao7aTDQM",
+                "https://www.youtube.com/embed/0I647GU3Jsc",
+                "https://www.youtube.com/embed/V5GS5ANG96M",
                 "https://www.youtube.com/embed/UCXao7aTDQM",
                 "https://www.youtube.com/embed/0I647GU3Jsc",
                 "https://www.youtube.com/embed/V5GS5ANG96M"
@@ -19,9 +25,12 @@ class Course extends Component {
             
         }
         this.changeLinkVideo = this.changeLinkVideo.bind(this);
-        this.showLesson = this.showLesson.bind(this)
+        this.showBook = this.showBook.bind(this)
     }
     changeLinkVideo(id){
+        document.getElementById("screen-video").style.display = "block";
+        document.getElementById("screen-book").style.display = "none";
+        document.getElementById("screen-test").style.display = "none";
         let link = this.state.linkVideo[parseInt(id)];
         // console.log(link);
         this.setState(state => ({
@@ -32,20 +41,22 @@ class Course extends Component {
         console.log(this.state);
     }
 
-    showExamination() {
-        console.log("Clicked")
-        let x = document.getElementById("exam");
-        if (x.style.display === "none" || x.style.display === "") {
-            x.style.display = "block";
-            x.scrollIntoView();
-          } else {
-            x.style.display = "none";
-          }
+    showTest(id) {
+        document.getElementById("screen-video").style.display = "none";
+        document.getElementById("screen-book").style.display = "none";
+        document.getElementById("screen-test").style.display = "block";
     }
 
-    showLesson (id){
+    showBook (id){
+        document.getElementById("screen-video").style.display = "none";
+        document.getElementById("screen-book").style.display = "block";
+        document.getElementById("screen-test").style.display = "none";
+    }
+
+    showLesson(id){
+        console.log("Show Lesson " + id )
         id = parseInt(id) + 2;
-        console.log("Show Lesson " + id)
+        
         
         let x = document.querySelector("#root > div > div > div:nth-child(4) > div.menu-course > div:nth-child("+id+") > div")
         if (x.style.display === "none" || x.style.display === "") {
@@ -59,8 +70,16 @@ class Course extends Component {
     render() {
         return (
             <div>
-                <div className="video-screen">
-                <iframe src={this.state.linkVideoPlaying} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                <div className="learning-screen">
+                    <div id = "screen-video">
+                        <iframe src={this.state.linkVideoPlaying} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                    </div>
+                    <div id="screen-book" style={{display:'none'}}>
+                        <Book></Book>
+                    </div>
+                    <div id="screen-test" style={{display:'none'}}>
+                        <Test></Test>
+                    </div>
                 </div>
 
                 <div className="menu-course">
@@ -79,8 +98,12 @@ class Course extends Component {
                         name={this.state.name[parseInt(item)]}
                         //name = this.state.name[id]
                         showLesson={() => this.showLesson(item)}
-                        showExamination={this.showExamination}
-                        >{item}</Lesson>
+                        showVideo={() => this.changeLinkVideo(item)}
+                        showBook={() => this.showBook(item)}
+                        showTest={() => this.showTest(item)}
+                        >
+                            {item}
+                        </Lesson>
                     ))}
                 </div>
             
@@ -97,18 +120,27 @@ const Lesson = props => (
         <div className="content-lesson">
             <div className="isActiveBar"></div>
             <div className="name-lesson">
-                <p>{props.id}{props.name}</p>
+                <p>{props.id} - {props.name}</p>
             </div>
         </div>
         </button>
         <div className="menu-lesson">
-            <button><div className="video-lesson">Watch Video</div></button>
-            <button><div className="test-lesson">Do The Test</div></button>
-            <button><div className="book-lesson">Reading Book</div></button>
-        
-        
-        
+            <button onClick={props.showVideo}><div className="video-lesson">Watch Video</div></button>
+            <button onClick={props.showBook}><div className="test-lesson">Do The Test</div></button>
+            <button onClick={props.showTest}><div className="book-lesson">Reading Book</div></button> 
         </div>
+    </div>
+);
+
+const Book = props => (
+    <div className="book">
+        <h2>Data Structures and Algorithms with JavaScript</h2>
+    </div>
+);
+
+const Test = props => (
+    <div className="test">
+        <h2>Test for Data Structures and Algorithms with JavaScript</h2>
     </div>
 );
 

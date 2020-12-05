@@ -1,16 +1,16 @@
-.video-screen {
+.learning-screen {
     width: 70%;
     height: calc(70vw/1.77);
     /* cho chiều cao tỉ lệ 1/1.77 với chiều rộng */
-    background-color: violet;
+    background-color: #fff;
     position: absolute;
     top:80px;
 }
-.video-screen iframe{
+.learning-screen iframe{
     width: 100%;
     height: calc(70vw/1.77);/* cho chiều cao tỉ lệ 1/1.77 với chiều rộng */
 }
-
+/* COURSE MENU */
 .menu-course {
     width: 30%;
     height: calc(70vw/1.77);
@@ -133,8 +133,3 @@
 }
 
 /* EXAMINATION */
-.exam {
-  position: absolute;
-  margin-top: 800px;
-  display: none;
-}

@@ -34,6 +34,7 @@ class Footer extends React.Component
                 <div className="footer-tag-header"><p>CONTACT</p></div>
                 <div className="footer-tag-content">
                     <p>Email: support@bacon.com</p>
+                    <p>Phone: 0373597130</p>
                     <div className="footer-tag-social">
                         <Facebook />
                         <Twitter />

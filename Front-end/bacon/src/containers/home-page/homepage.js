@@ -6,6 +6,7 @@ import Contact from '../../components/contact/contact.js'
 import Course from '../../containers/course-page/coursepage.js'
 import Footer from '../../components/footer/footer.js'
 import LoginPage from '../login-page/login.js'
+import Exam from '../../components/exam/exam.js'
 import './homepage.css'
 import {Switch, Route} from 'react-router-dom'
 import React, { Component } from 'react'
@@ -16,13 +17,14 @@ const Home = () => {
     <div>
         
         <Header/>
-        <div id="banner"></div>
-        <Author></Author>
+        {/* <div id="banner"></div> */}
+        {/* <Author></Author>
         
-        <Course></Course>
+        <Course></Course> */}
         
         {/* <Contact></Contact> */}
         {/* <Payment></Payment> */}
+        <Exam></Exam>
         <Footer></Footer>
         {/* <LoginPage></LoginPage> */}
     </div>
