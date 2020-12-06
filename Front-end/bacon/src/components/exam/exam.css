@@ -2,13 +2,61 @@
     width: 1000px;
     height: 1000px;
     min-height: 500px;
-    background-color: aquamarine;
+    background-color: #fff;
     position: relative;
-    padding-top: 300px;
-    margin: auto;
+    padding-top: 100px;
+    margin: 0px auto auto auto;
+}
+.exam h1 {
+    text-align: center;
 }
 .exam-question {
     width: 50%;
     margin: 20px auto 20px auto;
-    background-color: #ccc;
+    background-color: #fff;
+}
+.exam-question-header {display: flex;}
+.exam-question-point {
+    margin: auto 0px auto auto;
+    border: black solid 0.5px;
+    
+}
+/* QUESTION */
+.exam-question input{
+    width: 30px;
+    cursor: pointer;
+}
+.exam-question p {
+    padding-left: 10px;
+}
+/* BUTTON SUBMIT */
+.exam-button-submit{
+    width: 120px;
+  height: 40px;
+  margin-right: 0px ;
+  align-items: center;
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 30px;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  display: inline-flex;
+  transition: all .25s;
+  background-color: bisque;
+  justify-content: center;
+  margin: auto 10px auto 10px;
+  padding: .6em 1em .4em;
+  quotes: auto;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  transition: all .25s;
+  font-size: 14px;
+  margin-top: 1rem;
+  margin-left: 50rem;
+}
+.exam-button-submit:hover{
+    background-color: aquamarine;
 }
