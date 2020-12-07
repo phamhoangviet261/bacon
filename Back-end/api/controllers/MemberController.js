@@ -58,7 +58,7 @@ module.exports = {
             return;
         }
 
-        const sql = 'select password from Members where username = ?';
+        const sql = 'select id_member, password from Members where username = ?';
         const username = [req.body.username];
         const query = mysql.format(
             sql,
@@ -93,6 +93,7 @@ module.exports = {
                 // username là unique key nên chỉ trả về 1 item
                 if (result[0].password === password) {
                     const payload = {
+                        id: result[0].id_member,
                         username: req.body.username,
                     };
                     const token = jwt.sign(
@@ -174,8 +175,7 @@ module.exports = {
             return;
         }
         const password = hashPassword(req.body.password);
-        const sql = 'CALL `InsertMember`(?, ?, ?, ?);';
-
+        const sql = 'CALL `create_user`(?, ?, ?, ?);';
         const query = mysql.format(
             sql,
             [
