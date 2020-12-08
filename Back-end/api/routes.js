@@ -22,7 +22,7 @@ module.exports = function route (app) {
     app.route('/courses/:id_course/')
         .get(courseController.show)
         .put(courseController.update);
-        
+
     app.route('/courses/:id_course/lesson/')
         .get(lessonController.show)
         .post(lessonController.create);
