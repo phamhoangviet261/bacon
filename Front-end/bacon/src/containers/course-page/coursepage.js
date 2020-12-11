@@ -58,13 +58,19 @@ class Course extends Component {
         id = parseInt(id) + 2;
         
         
-        let x = document.querySelector("#root > div > div > div:nth-child(4) > div.menu-course > div:nth-child("+id+") > div")
+        let x = document.querySelector("#root > div > div > div:nth-child(3) > div.menu-course > div:nth-child(" + id + ") > div")
         if (x.style.display === "none" || x.style.display === "") {
             x.style.display = "block";
             // x.scrollIntoView();
           } else {
             x.style.display = "none";
           }
+        let y = document.querySelector("#root > div > div > div:nth-child(3) > div.menu-course > div:nth-child(" + id + ") > button > div > div.activeBar")
+        if(!y.classList.contains("isActiveBar")){
+            y.className += " isActiveBar";
+        } else {
+            y.className = "activeBar";
+        }
     }
 
     render() {
@@ -118,7 +124,7 @@ const Lesson = props => (
     <div className="lesson">
         <button onClick={props.showLesson}>
         <div className="content-lesson">
-            <div className="isActiveBar"></div>
+            <div className="activeBar"></div>
             <div className="name-lesson">
                 <p>{props.id} - {props.name}</p>
             </div>

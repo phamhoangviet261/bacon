@@ -17,16 +17,17 @@ const Home = () => {
     <div>
         
         <Header/>
-        {/* <div id="banner"></div> */}
-        {/* <Author></Author>
+        <div id="banner"></div>
+        {/* <Author></Author> */}
         
-        <Course></Course> */}
+        <Course></Course>
         
         {/* <Contact></Contact> */}
         {/* <Payment></Payment> */}
-        <Exam></Exam>
-        <Footer></Footer>
+        {/* <Exam></Exam> */}
         {/* <LoginPage></LoginPage> */}
+        <Footer></Footer>
+        
     </div>
 
     )
