@@ -12,21 +12,23 @@ import {Switch, Route} from 'react-router-dom'
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Payment from '../payment-page/payment.js'
+import Overview from '../overview-page/overview.js'
 const Home = () => {
     return (
     <div>
         
         <Header/>
-        <div id="banner"></div>
+        {/* <div id="banner"></div> */}
         {/* <Author></Author> */}
         
-        <Course></Course>
+        {/* <Course></Course> */}
+        <Overview></Overview>
         
         {/* <Contact></Contact> */}
         {/* <Payment></Payment> */}
         {/* <Exam></Exam> */}
         {/* <LoginPage></LoginPage> */}
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
         
     </div>
 

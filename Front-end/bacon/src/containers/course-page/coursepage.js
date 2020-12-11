@@ -58,14 +58,14 @@ class Course extends Component {
         id = parseInt(id) + 2;
         
         
-        let x = document.querySelector("#root > div > div > div:nth-child(3) > div.menu-course > div:nth-child(" + id + ") > div")
+        let x = document.querySelector("#root > div > div > div:nth-child(2) > div.menu-course > div:nth-child(" + id + ") > div.menu-lesson")
         if (x.style.display === "none" || x.style.display === "") {
             x.style.display = "block";
             // x.scrollIntoView();
           } else {
             x.style.display = "none";
           }
-        let y = document.querySelector("#root > div > div > div:nth-child(3) > div.menu-course > div:nth-child(" + id + ") > button > div > div.activeBar")
+        let y = document.querySelector("#root > div > div > div:nth-child(2) > div.menu-course > div:nth-child(" + id + ") > div:nth-child(1) > div > div.activeBar")
         if(!y.classList.contains("isActiveBar")){
             y.className += " isActiveBar";
         } else {
@@ -122,18 +122,18 @@ class Course extends Component {
 
 const Lesson = props => (
     <div className="lesson">
-        <button onClick={props.showLesson}>
+        <div onClick={props.showLesson}>
         <div className="content-lesson">
             <div className="activeBar"></div>
             <div className="name-lesson">
                 <p>{props.id} - {props.name}</p>
             </div>
         </div>
-        </button>
+        </div>
         <div className="menu-lesson">
-            <button onClick={props.showVideo}><div className="video-lesson">Watch Video</div></button>
-            <button onClick={props.showBook}><div className="test-lesson">Do The Test</div></button>
-            <button onClick={props.showTest}><div className="book-lesson">Reading Book</div></button> 
+            <div className="video-lesson" onClick={props.showVideo}><p>Watch Video</p></div>
+            <div className="test-lesson" onClick={props.showBook}><p>Do The Test</p></div>
+            <div className="book-lesson" onClick={props.showTest}><p>Reading Book</p></div>
         </div>
     </div>
 );
