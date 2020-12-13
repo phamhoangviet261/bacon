@@ -7,7 +7,8 @@
     color: #3498DB;
     background-color: #fff;
     z-index: 1;
-    box-shadow: 0 8px 6px -6px black;
+    border-bottom: black solid 0.5px;
+    /* box-shadow: 0 8px 6px -6px black; */
 }
 .header-logo {
     margin-left: 100px;
