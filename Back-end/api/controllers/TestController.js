@@ -5,12 +5,19 @@ const db = require('./../db');
 
 module.exports = {
     show: (req, res) => {
-        const sql = 'select id_test, name, length, content ' +
+        let sql = 'select id_test, name, length, content ' +
         'from Tests where id_course =  ?';
 
+        const value = [req.params.id_course];
+
+        if (Object.prototype.hasOwnProperty.call(req.params, 'id_test')) {
+            sql += ' AND id_test = ?';
+            // magic của javascript nên thôi đừng bàn tới nó .-.
+            value.push(req.params.id_lesson);
+        }
         const query = mysql.format(
             sql,
-            [req.params.id_course],
+            value,
         );
 
         db.query(
@@ -203,7 +210,7 @@ module.exports = {
         sql = 'update Tests set `name` = ?, ' +
         '`length` = ?, ' +
         '`content` = ?, ' +
-        'where id_course = ?';
+        'where id_course = ? AND id_test = ?';
 
         query = mysql.format(
             sql,
@@ -212,6 +219,7 @@ module.exports = {
                 req.body.length,
                 req.body.content,
                 req.params.id_course,
+                req.params.id_test,
             ],
         );
 
