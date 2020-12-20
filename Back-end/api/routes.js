@@ -5,6 +5,9 @@ const lessonController = require('./controllers/LessonController');
 const testController = require('./controllers/TestController');
 const documentController = require('./controllers/DocumentController');
 
+// Member function
+const courseSold = require('./controllers/CourseSoldController');
+
 module.exports = function route (app) {
     // Table Members
     app.route('/members/')
@@ -53,4 +56,10 @@ module.exports = function route (app) {
     app.route('/courses/:id_course/documents/:id_document/')
         .get(documentController.show)
         .post(documentController.update);
+
+    app.route('/members/:id_member/courses/')
+        .get(courseSold.show)
+        .post(courseController.buy);
+    app.route('/members/:id_member/courses/:id_courses')
+        .get(courseSold.show)
 };
