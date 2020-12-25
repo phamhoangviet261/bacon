@@ -59,7 +59,7 @@ module.exports = function route (app) {
 
     app.route('/members/:id_member/courses/')
         .get(courseSold.show)
-        .post(courseController.buy);
+        .post(courseController.register);
     app.route('/members/:id_member/courses/:id_courses')
-        .get(courseSold.show)
+        .get(courseSold.show);
 };

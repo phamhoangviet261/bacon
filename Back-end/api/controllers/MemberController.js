@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const mysql = require('mysql');
 const crypto = require('crypto');
 
 const db = require('./../db');
@@ -25,7 +24,7 @@ function hashPassword (password) {
 }
 module.exports = {
 
-    login: (req, res) => {
+    login: async (req, res) => {
         if (!Object.prototype.hasOwnProperty.call(req.body, 'username')) {
             res.status(400)
                 .type('json')
@@ -58,59 +57,28 @@ module.exports = {
             return;
         }
 
-        const sql = 'select id_member, password from Members where username = ?';
-        const username = [req.body.username];
-        const query = mysql.format(
-            sql,
-            username,
-        );
+        try {
+            const sql = 'select id_member, password from Members where username = ?';
 
-        db.query(
-            query,
-            (err, result) => {
-                if (err) {
-                    res.status(500)
-                        .type('json')
-                        .json({
-                            message: 'Đăng nhập thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
-                        });
-                    throw err;
-                }
-                if (!result) {
-                    res.status(404)
-                        .type('json')
-                        .json({
-                            message: 'Thông tin không chính xác',
-                            errors: {
-                                username: 'Tài khoản không tồn tại',
-                            },
-                        });
+            const result = await db.execute(sql, [req.body.username]);
 
-                    return;
-                }
-                const password = hashPassword(req.body.password);
+            if (result.length < 1) {
+                res.status(404)
+                    .type('json')
+                    .json({
+                        message: 'Thông tin không chính xác',
+                        errors: {
+                            username: 'Tài khoản không tồn tại',
+                        },
+                    });
 
-                // username là unique key nên chỉ trả về 1 item
-                if (result[0].password === password) {
-                    const payload = {
-                        id: result[0].id_member,
-                        username: req.body.username,
-                    };
-                    const token = jwt.sign(
-                        payload,
-                        process.env.JWT_SECRET,
-                    );
+                return;
+            }
 
-                    res.status(200)
-                        .cookie('token', token)
-                        .type('json')
-                        .json({
-                            message: 'Đăng nhập thành công',
-                        });
+            const password = hashPassword(req.body.password);
 
-                    return;
-                }
-
+            // username là unique key nên chỉ trả về 1 item
+            if (result[0].password !== password) {
                 res.status(400)
                     .type('json')
                     .json({
@@ -122,11 +90,34 @@ module.exports = {
                             },
                         ],
                     });
-            },
-        );
+                return;
+            }
+            const payload = {
+                id: result[0].id_member,
+                username: req.body.username,
+            };
+            const token = jwt.sign(
+                payload,
+                process.env.JWT_SECRET,
+            );
+
+            res.status(200)
+                .cookie('token', token)
+                .type('json')
+                .json({
+                    message: 'Đăng nhập thành công',
+                });
+        } catch (e) {
+            console.log(e);
+            res.status(500)
+                .type('json')
+                .json({
+                    message: 'Đăng nhập thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
+                });
+        }
     },
 
-    register: (req, res) => {
+    register: async (req, res) => {
         if (!Object.prototype.hasOwnProperty.call(req.body, 'username')) {
             res.status(400)
                 .type('json')
@@ -176,50 +167,41 @@ module.exports = {
         }
         const password = hashPassword(req.body.password);
         const sql = 'CALL `create_user`(?, ?, ?, ?);';
-        const query = mysql.format(
-            sql,
-            [
+        try {
+            await db.execute(sql, [
                 req.body.username,
                 password,
                 req.body.email,
                 'Member',
-            ],
-        );
+            ]);
 
-        db.query(
-            query,
-            (err, result) => {
-                if (err) {
-                    if (err.code === 'ER_DUP_ENTRY') {
-                        res.status(400)
-                            .type('json')
-                            .json({
-                                message: 'Đăng kí thất bại',
-                                errors: [
-                                    {
-                                        message: 'Tài khoản đã tồn tại',
-                                        field: 'username',
-                                    },
-                                ],
-                            });
-                        return;
-                    }
-
-                    res.status(500)
-                        .type('json')
-                        .json({
-                            message: 'Đăng kí thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
-                        });
-                    return;
-                }
-
-                res.status(201)
+            res.status(201)
+                .type('json')
+                .json({
+                    message: 'Đăng kí thành công',
+                });
+        } catch (e) {
+            if (e.code === 'ER_DUP_ENTRY') {
+                res.status(400)
                     .type('json')
                     .json({
-                        message: 'Đăng kí thành công',
+                        message: 'Đăng kí thất bại',
+                        errors: [
+                            {
+                                message: 'Tài khoản đã tồn tại',
+                                field: 'username',
+                            },
+                        ],
                     });
-            },
-        );
+                return;
+            }
+
+            res.status(500)
+                .type('json')
+                .json({
+                    message: 'Đăng kí thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
+                });
+        }
     },
 
 };

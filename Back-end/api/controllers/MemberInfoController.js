@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const mysql = require('mysql');
 
 const db = require('./../db');
 
@@ -25,103 +24,55 @@ module.exports = {
                 });
             return;
         }
-        // trùng username thì không cần kiểm tra thêm
-        if (req.params.username === payload.username) {
-            next();
-        } else {
-            // Không trùng username thì client có quyền không ?
+        // không trùng username thì huỷ
+        if (req.params.username !== payload.username) {
+            return;
+        }
+        next();
+    },
 
-            // kiểm tra quyền client
-            const sql = 'select id_member, role from Members where username = ?';
-            const query = mysql.format(
-                sql,
-                [payload.username],
-            );
+    show: async (req, res) => {
+        const sql = 'select name, sex, date_birth, date_registration from MembersInfo info JOIN Members mem ON info.id_member = mem.id_member' +
+                    ' where mem.username = ?';
 
-            db.query(
-                query,
-                (err, result) => {
-                    if (err) {
-                        res.status(500)
-                            .type('json')
-                            .json({
-                                message: 'Xác thực thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
-                            });
-                        return;
-                    }
-                    // Tìm thấy id
-                    // do username là unique key nên chỉ trả về đúng 1 kết quả
-                    if (result.length === 0) {
-                        res.status(400)
-                            .type('json')
-                            .json({
-                                message: 'Token không họp lệ',
-                            });
-                        return;
-                    }
-                    if (result[0].role === 'member') {
-                        res.status(403)
-                            .type('json')
-                            .json({
-                                message: 'Không đủ quyền hạn truy cập thông tin này',
-                            });
-                        return;
-                    }
-                    next();
-                },
-            );
+        try {
+            const result = await db.execute(sql, [req.params.username]);
+
+            if (result.length < 1) {
+                res.status(404)
+                    .type('json')
+                    .json({
+                        message: 'Thông tin không chính xác',
+                        errors: {
+                            username: 'Tài khoản không tồn tại',
+                        },
+                    });
+
+                return;
+            }
+
+            res.status(200)
+                .type('json')
+                .json({
+                    message: 'Tìm thấy thông tin thành viên',
+                    infos: {
+                        name: result[0].name,
+                        sex: result[0].sex,
+                        date_birth: result[0].date_birth,
+                        date_registration: result[0].date_registration,
+                    },
+                });
+        } catch (e) {
+            console.log(e);
+            res.status(500)
+                .type('json')
+                .json({
+                    message: 'Không thể lấy thông tin. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
+                });
         }
     },
 
-    show: (req, res) => {
-        const sql = 'select name, sex, date_birth, date_registration from MembersInfo info JOIN Members mem ON info.id_member = mem.id_member' +
-                    ' where mem.username = ?';
-        const query = mysql.format(
-            sql,
-            [req.params.username],
-        );
-
-        db.query(
-            query,
-            (err, result) => {
-                if (err) {
-                    res.status(500)
-                        .type('json')
-                        .json({
-                            message: 'Không thể lấy thông tin. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
-                        });
-                    throw err;
-                }
-
-                if (result.length < 1) {
-                    res.status(404)
-                        .type('json')
-                        .json({
-                            message: 'Thông tin không chính xác',
-                            errors: {
-                                username: 'Tài khoản không tồn tại',
-                            },
-                        });
-
-                    return;
-                }
-
-                res.status(200)
-                    .type('json')
-                    .json({
-                        message: 'Tìm thấy thông tin thành viên',
-                        infos: {
-                            name: result[0].name,
-                            sex: result[0].sex,
-                            date_birth: result[0].date_birth,
-                            date_registration: result[0].date_registration,
-                        },
-                    });
-            },
-        );
-    },
-
-    edit: (req, res) => {
+    edit: async (req, res) => {
         if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
             res.status(400)
                 .type('json')
@@ -173,31 +124,26 @@ module.exports = {
         const sql = 'UPDATE MembersInfo info JOIN Members mem ON info.id_member = mem.id_member' +
                     ' SET name = ?, sex = ?, date_birth = ?' +
                     ' WHERE mem.username = ?';
+        try {
+            await db.execute(sql, [
+                req.body.name,
+                req.body.sex,
+                req.body.date_birth,
+                req.params.username,
+            ]);
 
-        const query = mysql.format(
-            sql,
-            [req.body.name, req.body.sex, req.body.date_birth, req.params.username],
-        );
-
-        db.query(
-            query,
-            (err, result) => {
-                if (err) {
-                    console.log(err);
-                    res.status(500)
-                        .type('json')
-                        .json({
-                            message: 'Thay đổi thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
-                        });
-                    return;
-                }
-
-                res.status(201)
-                    .type('json')
-                    .json({
-                        message: 'Thay đổi thông tin thành công',
-                    });
-            },
-        );
+            res.status(201)
+                .type('json')
+                .json({
+                    message: 'Thay đổi thông tin thành công',
+                });
+        } catch (e) {
+            console.log(e);
+            res.status(500)
+                .type('json')
+                .json({
+                    message: 'Thay đổi thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
+                });
+        }
     },
 };
