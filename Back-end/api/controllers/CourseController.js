@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-const mysql = require('mysql');
 const db = require('./../db');
 // https://gist.github.com/gordonbrander/2230317
 const code = () => {
@@ -34,42 +33,47 @@ module.exports = {
         next();
     },
 
-    show: (req, res) => {
+    show: async (req, res) => {
         let sql = 'select c.id_course as "id", c.name as "name", c.code as "code", c.subject as "subject",' +
         'c.length as "length", c.price as "price", meminfo.id_member as "teacher_id", meminfo.name as "teacher_name"' +
         'from Courses c join MembersInfo meminfo on c.teacher = meminfo.id_member';
-        let query;
+        let result;
         if (!Object.prototype.hasOwnProperty.call(req.params, 'id_course')) {
             sql += ' where c.id_course = ?';
 
-            query = mysql.format(
-                sql,
-                [req.params.id_course],
-            );
-        }
-
-        query = sql;
-
-        db.query(
-            query,
-            (err, result) => {
-                if (err) {
-                    res.status(500)
-                        .type('json')
-                        .json({
-                            message: 'Lỗi .-.',
-                        });
-                    return;
-                }
+            try {
+                result = await db.execute(sql, [req.params.id_course]);
 
                 res.status(200)
                     .type('json')
                     .json(result);
-            },
-        );
+            } catch (e) {
+                console.log(e);
+                res.status(500)
+                    .type('json')
+                    .json({
+                        message: 'Lỗi .-.',
+                    });
+            }
+        } else {
+            try {
+                result = await db.execute(sql);
+
+                res.status(200)
+                    .type('json')
+                    .json(result);
+            } catch (e) {
+                console.log(e);
+                res.status(500)
+                    .type('json')
+                    .json({
+                        message: 'Lỗi .-.',
+                    });
+            }
+        }
     },
 
-    create: (req, res) => {
+    create: async (req, res) => {
         if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
             res.status(400)
                 .type('json')
@@ -135,79 +139,65 @@ module.exports = {
         const sql = 'insert into Courses (`name`, `code`, `subject`, `length`, `price`, `teacher`) ' +
         'values (?, ?, ?, ?, ?, ?)';
 
-        const query = mysql.format(
-            sql,
-            [
+        try {
+            await db.execute(sql, [
                 req.body.name,
                 code(),
                 req.body.subject,
                 req.body.length,
                 req.body.price,
                 payload.id,
-            ],
-        );
+            ]);
 
-        db.query(
-            query,
-            (err, result) => {
-                if (err) {
-                    res.status(500)
-                        .type('json')
-                        .json({
-                            message: 'Lỗi .-.',
-                        });
-                    return;
-                }
-
-                res.status(201)
-                    .type('json')
-                    .json({
-                        message: 'Tạo thành công',
-                    });
-            },
-        );
+            res.status(201)
+                .type('json')
+                .json({
+                    message: 'Tạo thành công',
+                });
+        } catch (e) {
+            console.log(e);
+            res.status(500)
+                .type('json')
+                .json({
+                    message: 'Lỗi .-.',
+                });
+        }
     },
 
-    update: (req, res) => {
+    update: async (req, res) => {
         let sql = 'select meminfo.id_member as "teacher_id" from MembersInfo ' +
         'where id_course = ?';
 
-        let query = mysql.format(
-            sql,
-            [req.params.id_course],
-        );
+        let result;
+        try {
+            result = db.execute(sql, [req.params.id_course]);
 
-        db.query(
-            query,
-            (err, result) => {
-                if (err) {
-                    res.status(500)
-                        .type('json')
-                        .json({
-                            message: 'Lỗi .-.',
-                        });
-                    return;
-                }
+            if (result.length < 1) {
+                res.status(404)
+                    .type('json')
+                    .json({
+                        message: 'Không tìm thấy khoá học',
+                    });
 
-                if (result.length < 1) {
-                    res.status(404)
-                        .type('json')
-                        .json({
-                            message: 'Không tìm thấy khoá học',
-                        });
-
-                    return;
-                }
-                const payload = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
-                if (result[0].teacher_id !== payload.id) {
-                    res.status(403)
-                        .type('json')
-                        .json({
-                            message: 'Không có quyền',
-                        });
-                }
-            },
-        );
+                return;
+            }
+            const payload = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            if (result[0].teacher_id !== payload.id) {
+                res.status(403)
+                    .type('json')
+                    .json({
+                        message: 'Không có quyền',
+                    });
+                return;
+            }
+        } catch (e) {
+            console.log(e);
+            res.status(500)
+                .type('json')
+                .json({
+                    message: 'Lỗi .-.',
+                });
+        }
 
         if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
             res.status(400)
@@ -276,35 +266,27 @@ module.exports = {
         '`price` = ?, ' +
         'where id_course = ?';
 
-        query = mysql.format(
-            sql,
-            [
+        try {
+            await db.execute(sql, [
                 req.body.name,
                 req.body.subject,
                 req.body.length,
                 req.body.price,
                 req.params.id_course,
-            ],
-        );
+            ]);
 
-        db.query(
-            query,
-            (err, result) => {
-                if (err) {
-                    res.status(500)
-                        .type('json')
-                        .json({
-                            message: 'Lỗi .-.',
-                        });
-                    return;
-                }
-
-                res.status(200)
-                    .type('json')
-                    .json({
-                        message: 'Sửa thành công',
-                    });
-            },
-        );
+            res.status(200)
+                .type('json')
+                .json({
+                    message: 'Sửa thành công',
+                });
+        } catch (e) {
+            console.log(e);
+            res.status(500)
+                .type('json')
+                .json({
+                    message: 'Lỗi .-.',
+                });
+        }
     },
 };
