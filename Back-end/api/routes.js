@@ -3,6 +3,7 @@ const memberInfoController = require('./controllers/MemberInfoController');
 const courseController = require('./controllers/CourseController');
 const lessonController = require('./controllers/LessonController');
 const testController = require('./controllers/TestController');
+const questionController = require('./controllers/QuestionController');
 const documentController = require('./controllers/DocumentController');
 
 // Member function
@@ -57,6 +58,16 @@ module.exports = function route (app) {
         .get(documentController.show)
         .post(documentController.update);
 
+    // Table Questions
+    app.route('/courses/:id_course/tests/:id_test/questions')
+        .get(questionController.show)
+        .post(questionController.create);
+
+    app.route('/courses/:id_course/tests/:id_test/questions/:id_question')
+        .get(questionController.show)
+        .post(questionController.update);
+
+    // Table CoursesSold
     app.route('/members/:id_member/courses/')
         .get(courseSold.show)
         .post(courseController.register);
