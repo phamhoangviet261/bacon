@@ -4,6 +4,7 @@ const courseController = require('./controllers/CourseController');
 const lessonController = require('./controllers/LessonController');
 const testController = require('./controllers/TestController');
 const questionController = require('./controllers/QuestionController');
+const answerController = require('./controllers/AnswerController');
 const documentController = require('./controllers/DocumentController');
 
 // Member function
@@ -66,6 +67,15 @@ module.exports = function route (app) {
     app.route('/courses/:id_course/tests/:id_test/questions/:id_question')
         .get(questionController.show)
         .post(questionController.update);
+
+    // Table Answer
+    app.route('/courses/:id_course/tests/:id_test/questions/:id_question/answers')
+        .get(answerController.show)
+        .post(answerController.create);
+
+    app.route('/courses/:id_course/tests/:id_test/questions/:id_question/answers/:id_answer')
+        .get(answerController.show)
+        .post(answerController.update);
 
     // Table CoursesSold
     app.route('/members/:id_member/courses/')

@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `CoursesSold` (
   `id_course` int NOT NULL,
   `status` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_bought` datetime DEFAULT NULL,
+  `date_payment` datetime DEFAULT NULL,
   `score` int DEFAULT NULL,
   PRIMARY KEY (`id_member`,`id_course`),
   KEY `fk_CoursesSold_Courses_idx` (`id_course`),
@@ -63,6 +64,20 @@ CREATE TABLE IF NOT EXISTS `CoursesSold` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
+
+-- Dumping structure for procedure CNPM18_COURSERA_DATABASE.create_question
+DROP PROCEDURE IF EXISTS `create_question`;
+DELIMITER //
+CREATE PROCEDURE `create_question`(
+	IN `id_test` INT,
+	IN `content` LONGTEXT,
+	IN `score` INT
+)
+BEGIN
+	insert into Answer(content) values (NULL);
+   insert into Question(id_test, content, score) values (id_test, content, score);
+END//
+DELIMITER ;
 
 -- Dumping structure for procedure CNPM18_COURSERA_DATABASE.create_user
 DROP PROCEDURE IF EXISTS `create_user`;
@@ -190,9 +205,9 @@ CREATE TABLE IF NOT EXISTS `Reviews` (
   `star` int DEFAULT NULL,
   `content` longtext COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_member`,`id_course`),
-  KEY `fk_Rwviews_Courses_idx` (`id_course`),
-  CONSTRAINT `fk_Reviews_Members` FOREIGN KEY (`id_member`) REFERENCES `Members` (`id_member`),
-  CONSTRAINT `fk_Rwviews_Courses` FOREIGN KEY (`id_course`) REFERENCES `Courses` (`id_course`)
+  KEY `fk_Reviews_Courses_idx` (`id_course`) USING BTREE,
+  CONSTRAINT `fk_Reviews_Courses` FOREIGN KEY (`id_course`) REFERENCES `Courses` (`id_course`),
+  CONSTRAINT `fk_Reviews_Members` FOREIGN KEY (`id_member`) REFERENCES `Members` (`id_member`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.

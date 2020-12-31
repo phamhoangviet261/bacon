@@ -61,8 +61,7 @@ module.exports = {
             return;
         }
 
-        const sql = 'insert into Questions (`id_test`, `content`, `score`) ' +
-        'values (?, ?, ?)';
+        const sql = 'CALL `create_question`(?, ?, ?)';
         try {
             await db.execute(sql, [
                 req.params.id_test,
