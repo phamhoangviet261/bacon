@@ -11,6 +11,7 @@ const memberInfoController = require('./controllers/MemberInfoController');
 const courseSoldController = require('./controllers/CourseSoldController');
 const memberAnswerController = require('./controllers/MemberAnswerController');
 const memberScoreController = require('./controllers/MemberScoreController');
+const reviewScoreController = require('./controllers/ReviewController');
 
 module.exports = function route (app) {
     // Table Members
@@ -101,4 +102,13 @@ module.exports = function route (app) {
 
     app.route('/members/:id_member/tests/:id_test')
         .get(memberScoreController.show);
+
+    // Table Review
+    app.route('/members/:id_member/reviews')
+        .get(reviewScoreController.show)
+        .post(reviewScoreController.create);
+
+    app.route('/members/:id_member/reviews/:id_course')
+        .get(reviewScoreController.show)
+        .post(reviewScoreController.update);
 };
