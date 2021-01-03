@@ -1,14 +1,15 @@
 const memberController = require('./controllers/MemberController');
-const memberInfoController = require('./controllers/MemberInfoController');
 const courseController = require('./controllers/CourseController');
 const lessonController = require('./controllers/LessonController');
 const testController = require('./controllers/TestController');
 const questionController = require('./controllers/QuestionController');
 const answerController = require('./controllers/AnswerController');
 const documentController = require('./controllers/DocumentController');
+const memberInfoController = require('./controllers/MemberInfoController');
 
 // Member function
-const courseSold = require('./controllers/CourseSoldController');
+const courseSoldController = require('./controllers/CourseSoldController');
+const memberAnswerController = require('./controllers/MemberAnswerController');
 
 module.exports = function route (app) {
     // Table Members
@@ -79,8 +80,17 @@ module.exports = function route (app) {
 
     // Table CoursesSold
     app.route('/members/:id_member/courses/')
-        .get(courseSold.show)
+        .get(courseSoldController.show)
         .post(courseController.register);
     app.route('/members/:id_member/courses/:id_courses')
-        .get(courseSold.show);
+        .get(courseSoldController.show);
+
+    // Table MemberAnswer
+    app.route('/members/:id_member/question/')
+        .get(memberAnswerController.show)
+        .post(memberAnswerController.create);
+
+    app.route('/members/:id_member/question/:id_question')
+        .get(memberAnswerController.show)
+        .post(memberAnswerController.update);
 };
