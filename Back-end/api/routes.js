@@ -10,6 +10,7 @@ const memberInfoController = require('./controllers/MemberInfoController');
 // Member function
 const courseSoldController = require('./controllers/CourseSoldController');
 const memberAnswerController = require('./controllers/MemberAnswerController');
+const memberScoreController = require('./controllers/MemberScoreController');
 
 module.exports = function route (app) {
     // Table Members
@@ -85,7 +86,7 @@ module.exports = function route (app) {
     app.route('/members/:id_member/courses/:id_courses')
         .get(courseSoldController.show);
 
-    // Table MemberAnswer
+    // Table MembersAnswer
     app.route('/members/:id_member/question/')
         .get(memberAnswerController.show)
         .post(memberAnswerController.create);
@@ -93,4 +94,11 @@ module.exports = function route (app) {
     app.route('/members/:id_member/question/:id_question')
         .get(memberAnswerController.show)
         .post(memberAnswerController.update);
+
+    // Table MembersScore
+    app.route('/members/:id_member/tests/')
+        .get(memberScoreController.show);
+
+    app.route('/members/:id_member/tests/:id_test')
+        .get(memberScoreController.show);
 };
