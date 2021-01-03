@@ -147,6 +147,8 @@ CREATE TABLE IF NOT EXISTS `MembersAnswers` (
   `id_member` int NOT NULL,
   `id_question` int NOT NULL,
   `score` int DEFAULT NULL,
+  `datetime_answer` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime_update` datetime DEFAULT NULL,
   PRIMARY KEY (`id_member`,`id_question`),
   KEY `fk_MembersAnswers_Questions_idx` (`id_question`),
   CONSTRAINT `fk_MembersAnswers_Members` FOREIGN KEY (`id_member`) REFERENCES `Members` (`id_member`),
@@ -182,6 +184,34 @@ CREATE TABLE IF NOT EXISTS `MembersScore` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
+
+-- Dumping structure for function CNPM18_COURSERA_DATABASE.member_answer
+DROP FUNCTION IF EXISTS `member_answer`;
+DELIMITER //
+CREATE FUNCTION `member_answer`(
+	`id_member` INT,
+	`id_question` INT,
+	`answer` INT
+) RETURNS int
+    DETERMINISTIC
+BEGIN
+	DECLARE content LONGTEXT;
+	DECLARE score INT DEFAULT 0;
+	DECLARE real_score INT DEFAULT 0;
+
+	SELECT content, score  INTO content, score FROM Answers WHERE `id_question` = id_question;
+	
+	IF STRCMP(content, answer) = 0 
+	THEN 
+		SET real_score = score;
+	END IF;
+	
+	INSERT INTO MembersAnswers (id_member, id_question, score) 
+		VALUES (id_member, id_question, real_score)
+		ON DUPLICATE KEY UPDATE score = real_score;
+	RETURN real_score;		
+END//
+DELIMITER ;
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Questions
 DROP TABLE IF EXISTS `Questions`;
@@ -226,6 +256,68 @@ CREATE TABLE IF NOT EXISTS `Tests` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
+
+-- Dumping structure for trigger CNPM18_COURSERA_DATABASE.MembersAnswers_after_insert
+DROP TRIGGER IF EXISTS `MembersAnswers_after_insert`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `MembersAnswers_after_insert` AFTER INSERT ON `MembersAnswers` FOR EACH ROW BEGIN
+	DECLARE sum_score int;
+	DECLARE test INT;
+	
+	#find test which question belongs to
+	SELECT id_test 
+	INTO test
+	FROM Questions
+	WHERE	Questions.id_question = NEW.id_question;
+	
+	#calc sum of score all of question belongs to test above
+	SELECT SUM(score)
+	INTO sum_score
+	FROM MembersAnswers
+	WHERE MembersAnswers.id_member = NEW.id_member 
+		AND MembersAnswers.id_question IN (SELECT Questions.id_question
+														FROM Questions
+														WHERE Questions.id_test = test);
+														
+	#insert or update in MembersScore
+	INSERT INTO MembersScore (id_member, id_question, score) 
+	VALUES (NEW.id_member, NEW.id_question, sum_score) 
+	ON DUPLICATE KEY UPDATE score=sum_score;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger CNPM18_COURSERA_DATABASE.MembersAnswers_after_update
+DROP TRIGGER IF EXISTS `MembersAnswers_after_update`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `MembersAnswers_after_update` AFTER UPDATE ON `MembersAnswers` FOR EACH ROW BEGIN
+	DECLARE sum_score int;
+	DECLARE test INT;
+	
+	#find test which question belongs to
+	SELECT id_test 
+	INTO test
+	FROM Questions
+	WHERE	Questions.id_question = NEW.id_question;
+	
+	#calc sum of score all of question belongs to test above
+	SELECT SUM(score)
+	INTO sum_score
+	FROM MembersAnswers
+	WHERE MembersAnswers.id_member = NEW.id_member 
+		AND MembersAnswers.id_question IN (SELECT Questions.id_question
+														FROM Questions
+														WHERE Questions.id_test = test);
+														
+	#insert or update in MembersScore
+	INSERT INTO MembersScore (id_member, id_question, score) 
+	VALUES (NEW.id_member, NEW.id_question, sum_score) 
+	ON DUPLICATE KEY UPDATE score=sum_score;
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
