@@ -195,7 +195,7 @@ module.exports = {
                     });
                 return;
             }
-
+            console.log(e);
             res.status(500)
                 .type('json')
                 .json({

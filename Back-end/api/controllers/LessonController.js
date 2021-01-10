@@ -125,66 +125,58 @@ module.exports = {
                         message: 'Không có quyền',
                     });
             }
-        } catch (e) {
-            console.log(e);
-            res.status(500)
-                .type('json')
-                .json({
-                    message: 'Lỗi .-.',
-                });
-        }
 
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi sửa',
-                    errors: [
-                        {
-                            message: 'Thiếu tên bài học',
-                            field: 'name',
-                        },
-                    ],
-                });
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi sửa',
+                        errors: [
+                            {
+                                message: 'Thiếu tên bài học',
+                                field: 'name',
+                            },
+                        ],
+                    });
 
-            return;
-        }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi sửa',
-                    errors: [
-                        {
-                            message: 'Thiếu thời gian bài học',
-                            field: 'length',
-                        },
-                    ],
-                });
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi sửa',
+                        errors: [
+                            {
+                                message: 'Thiếu thời gian bài học',
+                                field: 'length',
+                            },
+                        ],
+                    });
 
-            return;
-        }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi sửa',
-                    errors: [
-                        {
-                            message: 'Thiếu nội dung bài học',
-                            field: 'content',
-                        },
-                    ],
-                });
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi sửa',
+                        errors: [
+                            {
+                                message: 'Thiếu nội dung bài học',
+                                field: 'content',
+                            },
+                        ],
+                    });
 
-            return;
-        }
+                return;
+            }
 
-        sql = 'update Lessons set `name` = ?, ' +
+            sql = 'update Lessons set `name` = ?, ' +
         '`length` = ?, ' +
         '`content` = ?, ' +
         'where id_course = ? AND id_lesson = ?';
-        try {
+
             await db.execute(sql, [
                 req.body.name,
                 req.body.length,

@@ -39,49 +39,41 @@ module.exports = {
                     });
                 return;
             }
-        } catch (e) {
-            console.log(e);
-            res.status(500)
-                .type('json')
-                .json({
-                    message: 'Lỗi .-.',
-                });
-        }
 
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'star')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi tạo',
-                    errors: [
-                        {
-                            message: 'Thiếu số lượng sao',
-                            field: 'star',
-                        },
-                    ],
-                });
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'star')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi tạo',
+                        errors: [
+                            {
+                                message: 'Thiếu số lượng sao',
+                                field: 'star',
+                            },
+                        ],
+                    });
 
-            return;
-        }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi tạo',
-                    errors: [
-                        {
-                            message: 'Thiếu nội dung nhận xét',
-                            field: 'content',
-                        },
-                    ],
-                });
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi tạo',
+                        errors: [
+                            {
+                                message: 'Thiếu nội dung nhận xét',
+                                field: 'content',
+                            },
+                        ],
+                    });
 
-            return;
-        }
+                return;
+            }
 
-        const sql = 'insert into Reviews (`id_member`, `id_course`, `star`, `content`) ' +
+            const sql = 'insert into Reviews (`id_member`, `id_course`, `star`, `content`) ' +
         'values (?, ?, ?, ?)';
-        try {
+
             await db.execute(sql, [
                 req.params.id_member,
                 req.params.id_course,
@@ -115,52 +107,43 @@ module.exports = {
                     });
                 return;
             }
-        } catch (e) {
-            console.log(e);
-            res.status(500)
-                .type('json')
-                .json({
-                    message: 'Lỗi .-.',
-                });
-        }
 
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'star')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi tạo',
-                    errors: [
-                        {
-                            message: 'Thiếu số lượng sao',
-                            field: 'star',
-                        },
-                    ],
-                });
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'star')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi tạo',
+                        errors: [
+                            {
+                                message: 'Thiếu số lượng sao',
+                                field: 'star',
+                            },
+                        ],
+                    });
 
-            return;
-        }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi tạo',
-                    errors: [
-                        {
-                            message: 'Thiếu nội dung nhận xét',
-                            field: 'content',
-                        },
-                    ],
-                });
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi tạo',
+                        errors: [
+                            {
+                                message: 'Thiếu nội dung nhận xét',
+                                field: 'content',
+                            },
+                        ],
+                    });
 
-            return;
-        }
+                return;
+            }
 
-        const sql = 'update Reviews ' +
+            const sql = 'update Reviews ' +
         ' set `star` = ?, ' +
         '`content` = ?, ' +
         'where id_member = ? AND id_course  = ?';
 
-        try {
             await db.execute(sql, [
                 req.body.star,
                 req.body.content,
