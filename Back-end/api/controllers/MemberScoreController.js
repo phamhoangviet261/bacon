@@ -23,7 +23,6 @@ module.exports = {
                 .json({
                     message: 'Lỗi .-.',
                 });
-        }
-        ;
+        };
     },
 };

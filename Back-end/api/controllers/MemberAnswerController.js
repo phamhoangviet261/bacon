@@ -25,8 +25,7 @@ module.exports = {
                 .json({
                     message: 'Lỗi .-.',
                 });
-        }
-        ;
+        };
     },
 
     create: async (req, res) => {
@@ -96,34 +95,25 @@ module.exports = {
                     });
                 return;
             }
-        } catch (e) {
-            console.log(e);
-            res.status(500)
-                .type('json')
-                .json({
-                    message: 'Lỗi .-.',
-                });
-        }
 
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'answer')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi tạo',
-                    errors: [
-                        {
-                            message: 'Thiếu câu trả lời',
-                            field: 'answer',
-                        },
-                    ],
-                });
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'answer')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi tạo',
+                        errors: [
+                            {
+                                message: 'Thiếu câu trả lời',
+                                field: 'answer',
+                            },
+                        ],
+                    });
 
-            return;
-        }
+                return;
+            }
 
-        const sql = 'SELECT `member_answer`(?, ?, ?)';
+            const sql = 'SELECT `member_answer`(?, ?, ?)';
 
-        try {
             const result = await db.execute(sql, [
                 req.params.id_member,
                 req.params.id_question,

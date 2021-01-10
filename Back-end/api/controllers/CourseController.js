@@ -21,55 +21,45 @@ module.exports = {
             }
 
             jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            next();
         } catch (e) {
             res.status(500)
                 .type('json')
                 .json({
                     message: 'Xác thực thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
                 });
-            return;
         }
-
-        next();
     },
 
     show: async (req, res) => {
-        let sql = 'select c.id_course as "id", c.name as "name", c.code as "code", c.subject as "subject",' +
+        try {
+            let sql = 'select c.id_course as "id", c.name as "name", c.code as "code", c.subject as "subject",' +
         'c.length as "length", c.price as "price", meminfo.id_member as "teacher_id", meminfo.name as "teacher_name"' +
         'from Courses c join MembersInfo meminfo on c.teacher = meminfo.id_member';
-        let result;
-        if (!Object.prototype.hasOwnProperty.call(req.params, 'id_course')) {
-            sql += ' where c.id_course = ?';
+            let result;
+            if (!Object.prototype.hasOwnProperty.call(req.params, 'id_course')) {
+                sql += ' where c.id_course = ?';
 
-            try {
                 result = await db.execute(sql, [req.params.id_course]);
 
                 res.status(200)
                     .type('json')
                     .json(result);
-            } catch (e) {
-                console.log(e);
-                res.status(500)
-                    .type('json')
-                    .json({
-                        message: 'Lỗi .-.',
-                    });
+                return;
             }
-        } else {
-            try {
-                result = await db.execute(sql);
 
-                res.status(200)
-                    .type('json')
-                    .json(result);
-            } catch (e) {
-                console.log(e);
-                res.status(500)
-                    .type('json')
-                    .json({
-                        message: 'Lỗi .-.',
-                    });
-            }
+            result = await db.execute(sql);
+
+            res.status(200)
+                .type('json')
+                .json(result);
+        } catch (e) {
+            console.log(e);
+            res.status(500)
+                .type('json')
+                .json({
+                    message: 'Lỗi .-.',
+                });
         }
     },
 
@@ -134,12 +124,11 @@ module.exports = {
 
             return;
         }
-
-        const payload = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
-        const sql = 'insert into Courses (`name`, `code`, `subject`, `length`, `price`, `teacher`) ' +
-        'values (?, ?, ?, ?, ?, ?)';
-
         try {
+            const payload = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            const sql = 'insert into Courses (`name`, `code`, `subject`, `length`, `price`, `teacher`) ' +
+            'values (?, ?, ?, ?, ?, ?)';
+
             await db.execute(sql, [
                 req.body.name,
                 code(),
@@ -190,83 +179,74 @@ module.exports = {
                     });
                 return;
             }
-        } catch (e) {
-            console.log(e);
-            res.status(500)
-                .type('json')
-                .json({
-                    message: 'Lỗi .-.',
-                });
-        }
 
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi cập nhật',
-                    errors: [
-                        {
-                            message: 'Thiếu tên khoá học',
-                            field: 'name',
-                        },
-                    ],
-                });
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi cập nhật',
+                        errors: [
+                            {
+                                message: 'Thiếu tên khoá học',
+                                field: 'name',
+                            },
+                        ],
+                    });
 
-            return;
-        }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'subject')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi cập nhật',
-                    errors: [
-                        {
-                            message: 'Thiếu chủ đề',
-                            field: 'name',
-                        },
-                    ],
-                });
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'subject')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi cập nhật',
+                        errors: [
+                            {
+                                message: 'Thiếu chủ đề',
+                                field: 'name',
+                            },
+                        ],
+                    });
 
-            return;
-        }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi cập nhật',
-                    errors: [
-                        {
-                            message: 'Thiếu thời gian học',
-                            field: 'length',
-                        },
-                    ],
-                });
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi cập nhật',
+                        errors: [
+                            {
+                                message: 'Thiếu thời gian học',
+                                field: 'length',
+                            },
+                        ],
+                    });
 
-            return;
-        }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'price')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi cập nhật',
-                    errors: [
-                        {
-                            message: 'Thiếu giá khoá học',
-                            field: 'price',
-                        },
-                    ],
-                });
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'price')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi cập nhật',
+                        errors: [
+                            {
+                                message: 'Thiếu giá khoá học',
+                                field: 'price',
+                            },
+                        ],
+                    });
 
-            return;
-        }
+                return;
+            }
 
-        sql = 'update Courses set `name` = ?, ' +
-        '`subject` = ?, ' +
-        '`length` = ?, ' +
-        '`price` = ?, ' +
-        'where id_course = ?';
+            sql = 'update Courses set `name` = ?, ' +
+            '`subject` = ?, ' +
+            '`length` = ?, ' +
+            '`price` = ?, ' +
+            'where id_course = ?';
 
-        try {
             await db.execute(sql, [
                 req.body.name,
                 req.body.subject,

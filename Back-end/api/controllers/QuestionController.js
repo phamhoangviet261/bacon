@@ -107,51 +107,42 @@ module.exports = {
                     });
                 return;
             }
-        } catch (e) {
-            console.log(e);
-            res.status(500)
-                .type('json')
-                .json({
-                    message: 'Lỗi .-.',
-                });
-        }
 
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi tạo',
-                    errors: [
-                        {
-                            message: 'Thiếu nội dung câu hỏi',
-                            field: 'content',
-                        },
-                    ],
-                });
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi tạo',
+                        errors: [
+                            {
+                                message: 'Thiếu nội dung câu hỏi',
+                                field: 'content',
+                            },
+                        ],
+                    });
 
-            return;
-        }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'score')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi tạo',
-                    errors: [
-                        {
-                            message: 'Thiếu điểm của câu hỏi',
-                            field: 'score',
-                        },
-                    ],
-                });
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'score')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi tạo',
+                        errors: [
+                            {
+                                message: 'Thiếu điểm của câu hỏi',
+                                field: 'score',
+                            },
+                        ],
+                    });
 
-            return;
-        }
+                return;
+            }
 
-        sql = 'update Questions set `content` = ?, ' +
+            sql = 'update Questions set `content` = ?, ' +
         '`score` = ?, ' +
         'where id_test = ? AND id_question  = ?';
 
-        try {
             await db.execute(sql, [
                 req.body.content,
                 req.body.score,

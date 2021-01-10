@@ -16,19 +16,18 @@ module.exports = {
             }
 
             payload = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            // không trùng username thì huỷ
+            if (req.params.username !== payload.username) {
+                return;
+            }
+            next();
         } catch (e) {
             res.status(500)
                 .type('json')
                 .json({
                     message: 'Xác thực thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
                 });
-            return;
         }
-        // không trùng username thì huỷ
-        if (req.params.username !== payload.username) {
-            return;
-        }
-        next();
     },
 
     show: async (req, res) => {
