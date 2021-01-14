@@ -73,8 +73,7 @@ module.exports = function route (app) {
 
     // Table Answer
     app.route('/courses/:id_course/tests/:id_test/questions/:id_question/answers')
-        .get(answerController.show)
-        .post(answerController.create);
+        .get(answerController.show);
 
     app.route('/courses/:id_course/tests/:id_test/questions/:id_question/answers/:id_answer')
         .get(answerController.show)
@@ -83,9 +82,10 @@ module.exports = function route (app) {
     // Table CoursesSold
     app.route('/members/:id_member/courses/')
         .get(courseSoldController.show)
-        .post(courseController.register);
+        .post(courseSoldController.register);
     app.route('/members/:id_member/courses/:id_courses')
-        .get(courseSoldController.show);
+        .get(courseSoldController.show)
+        .post(courseSoldController.update);
 
     // Table MembersAnswer
     app.route('/members/:id_member/question/')
