@@ -3,11 +3,17 @@
     height: 80px;
     background-color: none;
     display: flex;
-    position: absolute;
+    position: fixed;
+    color: #3498DB;
+    background-color: #fff;
+    z-index: 1;
+    border-bottom: black solid 0.5px;
+    /* box-shadow: 0 8px 6px -6px black; */
 }
 .header-logo {
     margin-left: 100px;
     margin-top: 0;
+    padding-top: 10px;
     width: 150px;
     height: auto;
     background-color: none;
@@ -15,20 +21,20 @@
     align-items: center;
     align-content: center;
     text-align: center;
-    color: beige;
+    color: black;
 }
 .header-logo:hover{
   cursor: pointer;
 }
-
+/* ----------------------------- */
 .containerflex{
     padding: 5px;
     /* background: #9C27B0; */
     width: 1000px;
     min-width: 320px;
     /* height: 480px; */
-    margin: 0px 100px 0px 400px;
-
+    /* margin: 0px 100px 0px 100px; */
+    margin-left: 100px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -37,64 +43,144 @@
     align-content: center;
     text-align: center;
 }
-.flexitem {
-    width: 180px;
-    padding: 20px;
-    /* background: lightblue; */
-    margin: 1px;
-    font-weight: bold;
-    /* background-color: blanchedalmond; */
-    cursor: pointer;
+/* EDIT */
+nav.primary-navigation {
+  margin: 0 auto;
+  display: block;
+  /* padding: 120px 0 0 0; cho nay lam cho cai nav xuong khoi header */
+  text-align: center;
+  font-size: 16px;
 }
-.flexitem:hover{
-  background-color: rgba(200,200,200,2);
+nav.primary-navigation ul li {
+  list-style: none;
+  margin: 0 auto;
+  border-left: 2px solid #3ca0e7;
+  display: inline-block;
+  padding: 0 30px;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  font-family: arvo;
 }
-/* ----------------------------------------------------- */
-/* Dropdown Button */
-.dropbtn {
-    background-color: #3498DB;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    width: 158px;
-    height: 60px;
-  }
-  
-  /* Dropdown button on hover & focus */
-  .dropbtn:hover, .dropbtn:focus {
-    background-color: #2980B9;
-  }
-  
-  /* The container <div> - needed to position the dropdown content */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: #ddd}
-  
-  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-  .show {display:block;}
+nav.primary-navigation li a {
+  color: black;
+}
+nav.primary-navigation li a:hover {
+  color: #3ca0e7;
+}
+nav.primary-navigation li:hover {
+  cursor: pointer;
+}
+nav.primary-navigation ul li ul {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  padding-left: 0;
+  left: 0;
+  display: none;
+  background: white;
+}
+nav.primary-navigation ul li:hover > ul,
+nav.primary-navigation ul li ul:hover {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+  min-width: 250px;
+  text-align: left;
+  padding-top: 20px;
+  box-shadow: 0px 3px 5px -1px #ccc;
+}
+nav.primary-navigation ul li ul li {
+  clear: both;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 20px;
+  border-style: none;
+}
+nav.primary-navigation ul li ul li a:hover {
+  padding-left: 10px;
+  border-left: 2px solid #3ca0e7;
+  transition: all 0.3s ease;
+}
 
-  
+a {
+  text-decoration: none;
+}
+a:hover {
+  color: #3ca0e7;
+}
+
+ul li ul li a {
+  transition: all 0.5s ease;
+}
+nav li:last-child{
+  border-right: 2px solid #3ca0e7;
+}
+/* SEARCH BAR */
+.search-bar{
+  width: 300px;
+  margin: auto 20px auto 10px;
+  padding-left: 100px;
+}
+input {
+  border: 1px solid #ccc;
+  font-size: 12px;
+  height: 30px;
+  width: 250px;
+  /* padding: 4px 8px; */
+  /* position: absolute;
+  width: 20%; */
+  /* margin-bottom: 30px; */
+}
+input:focus {
+  outline: none;
+}
+/* BUTTON HEADER */
+.header-button-container{
+  width: 500px;
+  height: 80px;
+  /* background-color: aquamarine; */
+  display: flex;
+  margin-left: 10px;
+}
+.header-button{
+  width: 120px;
+  height: 40px;
+  margin: auto;
+  align-items: center;
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 30px;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  display: inline-flex;
+  transition: all .25s;
+  background-color: bisque;
+  justify-content: center;
+  margin: auto 10px auto 10px;
+  padding: .6em 1em .4em;
+  quotes: auto;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  transition: all .25s;
+  font-size: 14px;
+}
+.button-login:hover{
+  background-color: aquamarine;
+}
+.button-signup{
+  background-color: #ffe54c;
+}
+.button-signup:hover{
+  background-color: aquamarine;
+}
+.button-user{
+  /* display: none; */
+}
+.button-user:hover{
+  background-color: aquamarine
+}
+

@@ -15,10 +15,11 @@ class App extends React.Component {
     const {isLog} = this.state;
     return (
       <div>       
-        <Switch>
+        {/* <Switch>
         <Route exact path='/' render={() => !isLog ?<LoginForm isLogin={value => this.handleLogin(value)}/>:<Home/>}></Route>
         <Route exact path='/hihi' render={()=> <h1>Hihi</h1>}/>
-        </Switch>
+        </Switch> */}
+        <Home/>
       </div>
     );
   }

@@ -1,0 +1,127 @@
+.payment {
+    top: 100px;
+    width: 600px;
+    height: 600px;
+    left: 30%;
+    /* background-color: aqua; */
+    position: relative;
+    /* border: aqua solid 2px; */
+}
+.payment-header{
+    display: flex;
+    /* flex-direction: column; */
+}
+h2 {
+    -webkit-font-smoothing: antialiased;
+  font-family: OpenSans,Arial,sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 2.625rem;
+  margin: 0;
+  max-width: 100%;
+  padding: 0;
+  quotes: auto;
+}
+span{
+    margin-top: 25px;
+    margin-left: 30px;
+}
+.span-enrolled{
+    height: 25px;
+    background-color: cyan;
+    border-radius: 50%;
+    margin-left: 250px;
+    margin-top: 8px;
+    padding-top: 5px;
+    padding-right: 20px;
+}
+/* CHOOSE PAYMENT */
+.choose-payment{
+    display: flex;
+}
+.choose-visa{
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    text-align: center;
+}
+.choose-visa:hover{
+    background-color: blueviolet;
+}
+.choose-paypal {
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    text-align: center;
+}
+.choose-paypal:hover{
+    background-color: blueviolet;
+}
+/* FIELD PAYMENT */
+input, label {
+    display:block;
+}
+.field-payment{
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+.card-row{
+    display: flex;   
+}
+.exp-date{
+    margin-left: 24px;
+}
+.cvv{
+    margin-left: 20px;
+}
+/* SETTING */
+.visa-and-paypal{
+    position: absolute;
+    margin-top: 2   0px;
+}
+.visa{
+    position: relative;
+    display: block;
+}
+.paypal{
+    position: absolute;
+    display: none;
+}
+/* BUTTON */
+.btn-submit{
+    margin-top: 50px !important;
+    -webkit-font-smoothing: antialiased;
+  appearance: button;
+  background-color: #2073d4;
+  background-image: none;
+  border-radius: 0;
+  border-style: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  filter: none;
+  font-family: OpenSans,Arial,sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  height: 48px;
+  line-height: 14px;
+  margin: 0;
+  min-width: 72px;
+  opacity: 1;
+  outline: 5px auto -webkit-focus-ring-color;
+  overflow: visible;
+  padding: 10px 20px;
+  quotes: auto;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  touch-action: manipulation;
+  transition-delay: 0ms;
+  transition-duration: .1s;
+  transition-timing-function: ease;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 272px;
+}

@@ -16,7 +16,8 @@ html{
   max-height: 700px;
   width: 30%;
   height: 60%;
-  margin: 100px auto;
+  margin: 0px auto;
+  padding-top: 100px;
   background-color: #FFFFFF;
   border-radius: 25px;
 }

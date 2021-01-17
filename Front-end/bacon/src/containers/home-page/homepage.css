@@ -1,6 +1,9 @@
+*{
+    /* position: relative; */
+}
 #banner {
     width: 100%;
     height: 789px;
-    background-image: url("../../assets/images/bg4.199e9ec1.jpg");
+    /* background-image: url("../../assets/images/bg4.199e9ec1.jpg"); */
     background-size: cover;
 }
