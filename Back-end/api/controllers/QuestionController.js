@@ -4,15 +4,15 @@ const db = require('./../db');
 
 module.exports = {
     show: async (req, res) => {
-        let sql = 'select id_test, name, length, content ' +
-        'from Tests where id_course =  ?';
+        let sql = 'select id_question, id_test, name, content, score ' +
+        'from Questions where id_test =  ?';
 
-        const values = [req.params.id_course];
+        const values = [req.params.id_test];
 
-        if (Object.prototype.hasOwnProperty.call(req.params, 'id_test')) {
-            sql += ' AND id_test = ?';
+        if (Object.prototype.hasOwnProperty.call(req.params, 'id_question')) {
+            sql += ' AND id_question = ?';
             // magic của javascript nên thôi đừng bàn tới nó .-.
-            values.push(req.params.id_lesson);
+            values.push(req.params.id_question);
         }
         try {
             const result = await db.execute(sql, values);
@@ -27,40 +27,9 @@ module.exports = {
                     message: 'Lỗi .-.',
                 });
         }
-        ;
     },
 
     create: async (req, res) => {
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi tạo',
-                    errors: [
-                        {
-                            message: 'Thiếu tên bài tập',
-                            field: 'name',
-                        },
-                    ],
-                });
-
-            return;
-        }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
-            res.status(400)
-                .type('json')
-                .json({
-                    message: 'Thiếu thông tin khi tạo',
-                    errors: [
-                        {
-                            message: 'Thiếu thời gian bài tập',
-                            field: 'length',
-                        },
-                    ],
-                });
-
-            return;
-        }
         if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
             res.status(400)
                 .type('json')
@@ -68,7 +37,7 @@ module.exports = {
                     message: 'Thiếu thông tin khi tạo',
                     errors: [
                         {
-                            message: 'Thiếu nội dung bài tập',
+                            message: 'Thiếu nội dung câu hỏi',
                             field: 'content',
                         },
                     ],
@@ -76,15 +45,28 @@ module.exports = {
 
             return;
         }
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'score')) {
+            res.status(400)
+                .type('json')
+                .json({
+                    message: 'Thiếu thông tin khi tạo',
+                    errors: [
+                        {
+                            message: 'Thiếu điểm của câu hỏi',
+                            field: 'score',
+                        },
+                    ],
+                });
 
-        const sql = 'insert into Tests (`name`, `length`, `content`, `id_course`) ' +
-        'values (?, ?, ?, ?)';
+            return;
+        }
+
+        const sql = 'CALL `create_question`(?, ?, ?)';
         try {
             await db.execute(sql, [
-                req.body.name,
-                req.body.length,
+                req.params.id_test,
                 req.body.content,
-                req.params.id_course,
+                req.body.score,
             ]);
 
             res.status(201)
@@ -126,44 +108,14 @@ module.exports = {
                 return;
             }
 
-            if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
-                res.status(400)
-                    .type('json')
-                    .json({
-                        message: 'Thiếu thông tin khi sửa',
-                        errors: [
-                            {
-                                message: 'Thiếu tên bài tập',
-                                field: 'name',
-                            },
-                        ],
-                    });
-
-                return;
-            }
-            if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
-                res.status(400)
-                    .type('json')
-                    .json({
-                        message: 'Thiếu thông tin khi sửa',
-                        errors: [
-                            {
-                                message: 'Thiếu thời gian bài tập',
-                                field: 'length',
-                            },
-                        ],
-                    });
-
-                return;
-            }
             if (!Object.prototype.hasOwnProperty.call(req.body, 'content')) {
                 res.status(400)
                     .type('json')
                     .json({
-                        message: 'Thiếu thông tin khi sửa',
+                        message: 'Thiếu thông tin khi tạo',
                         errors: [
                             {
-                                message: 'Thiếu nội dung bài tập',
+                                message: 'Thiếu nội dung câu hỏi',
                                 field: 'content',
                             },
                         ],
@@ -171,18 +123,31 @@ module.exports = {
 
                 return;
             }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'score')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi tạo',
+                        errors: [
+                            {
+                                message: 'Thiếu điểm của câu hỏi',
+                                field: 'score',
+                            },
+                        ],
+                    });
 
-            sql = 'update Tests set `name` = ?, ' +
-        '`length` = ?, ' +
-        '`content` = ?, ' +
-        'where id_course = ? AND id_test = ?';
+                return;
+            }
+
+            sql = 'update Questions set `content` = ?, ' +
+        '`score` = ?, ' +
+        'where id_test = ? AND id_question  = ?';
 
             await db.execute(sql, [
-                req.body.name,
-                req.body.length,
                 req.body.content,
-                req.params.id_course,
+                req.body.score,
                 req.params.id_test,
+                req.params.id_question,
             ]);
 
             res.status(200)
