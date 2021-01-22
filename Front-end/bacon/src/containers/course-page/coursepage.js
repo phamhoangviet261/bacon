@@ -1,8 +1,11 @@
 import React, {Component} from 'react'
+import {Link, Redirect} from 'react-router-dom'
 import $ from 'jquery'
 import Exam from '../../components/exam/exam.js'
 import './coursepage.css'
 import './script.js'
+
+import Header from '../../components/header/header.js'
 class Course extends Component {
     constructor(props){
         super(props);
@@ -21,9 +24,19 @@ class Course extends Component {
                 "https://www.youtube.com/embed/0I647GU3Jsc",
                 "https://www.youtube.com/embed/V5GS5ANG96M"
             ],
-            linkVideoPlaying: "https://www.youtube.com/embed/UCXao7aTDQM" 
-            
+            linkVideoPlaying: "https://www.youtube.com/embed/UCXao7aTDQM" ,
+            isLoggedIn: true
         }
+
+        const token = localStorage.getItem("token");
+        
+        if(token == null){
+            this.setState = {
+                isLoggedIn: false
+            }
+        }
+        
+
         this.changeLinkVideo = this.changeLinkVideo.bind(this);
         this.showBook = this.showBook.bind(this)
     }
@@ -58,14 +71,14 @@ class Course extends Component {
         id = parseInt(id) + 2;
         
         
-        let x = document.querySelector("#root > div > div > div:nth-child(2) > div.menu-course > div:nth-child(" + id + ") > div.menu-lesson")
+        let x = document.querySelector("#root > div > div > div:nth-child(3) > div.menu-course > div:nth-child(" + id +") > div.menu-lesson")
         if (x.style.display === "none" || x.style.display === "") {
             x.style.display = "block";
             // x.scrollIntoView();
           } else {
             x.style.display = "none";
           }
-        let y = document.querySelector("#root > div > div > div:nth-child(2) > div.menu-course > div:nth-child(" + id + ") > div:nth-child(1) > div > div.activeBar")
+        let y = document.querySelector("#root > div > div > div:nth-child(3) > div.menu-course > div:nth-child(" + id +") > div:nth-child(1) > div > div.activeBar")
         if(!y.classList.contains("isActiveBar")){
             y.className += " isActiveBar";
         } else {
@@ -74,8 +87,12 @@ class Course extends Component {
     }
 
     render() {
+        if(this.state.isLoggedIn){
+            return <Redirect to="/"></Redirect>
+          }
         return (
             <div>
+                <Header logIn={this.state.loggedIn}></Header>
                 <div className="learning-screen">
                     <div id = "screen-video">
                         <iframe src={this.state.linkVideoPlaying} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>

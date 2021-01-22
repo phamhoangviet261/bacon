@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Redirect} from 'react-router-dom'
 import './login.css'
 
 
@@ -11,12 +12,13 @@ class LoginForm extends React.Component{
         this.getValue = this.getValue.bind(this);
         this.state={
             username: '',
-            password: ''
+            password: '',
+            isLoggedIn: false
         }
      }  
 
     getValue() {
-      alert("Username: " + this.state.username + " - Password: " + this.state.password);
+      //alert("Username: " + this.state.username + " - Password: " + this.state.password);
       //this.props.isLogin = true;
     }
 
@@ -28,20 +30,33 @@ class LoginForm extends React.Component{
     }
 
     handleSubmit = (e) => {
+      // e.preventDefault();
         console.log(this.state)
+      const {username, password} = this.state;
+      console.log({username, password});
+      if(username == "1" && password == "1"){
+        //localStorage.setItem("token", "something");
+        this.setState({
+          isLoggedIn: true
+        })
+      }
+      console.log(this.state)
     }
     render(){
+      if(this.state.isLoggedIn){
+        return <Redirect to="/home"></Redirect>
+      }
       return(
+        <form action="" method="post">
         <div id="loginform">
           <FormHeader title="L O G I N" />
-          <Form onSubmit={this.handleSubmit} handleUNFunc={this.handleUsernameChange} handlePWFunc={this.handlePasswordChange}/>
+          <Form handleUNFunc={this.handleUsernameChange} handlePWFunc={this.handlePasswordChange}/>
           <div id="button" className="row" >
-            <button onSubmit={this.handleSubmit}
-              onClick={ () => {this.getValue(); this.props.isLogin(true)} }
-            >Submit</button>
-        </div>
+            <button onClick={this.handleSubmit}> Submit </button>
+          </div>
           <OtherMethods />
         </div>
+        </form>
       )
     }
   }
@@ -54,7 +69,7 @@ class LoginForm extends React.Component{
   const Form = props => (
      <div>
        <FormInput description="Username" placeholder="Enter your username" type="text" handleFunc={props.handleUNFunc}/>
-       <FormInput description="Password" placeholder="Enter your password" type="password" handleFunc={props.handlePWFunc}/>
+       <FormInput description="Password" placeholder="Enter your password" type="password" handleFunc={props.handlePWFunc} />
        {/* <FormButton title="Log in"/> */}
      </div>
   );
@@ -64,7 +79,7 @@ class LoginForm extends React.Component{
   const FormInput = props => (
     <div className="row">
       <label>{props.description}</label>
-      <input type={props.type} placeholder={props.placeholder} onChange={props.handleFunc}/>
+      <input type={props.type} placeholder={props.placeholder} onChange={props.handleFunc} autoComplete="new-password"  required />
     </div>  
   );
   
@@ -73,7 +88,6 @@ class LoginForm extends React.Component{
       <label>Or sign in with:</label>
       <div id="iconGroup">
         <Facebook />
-        <Twitter />
         <Google />
       </div>
     </div>
@@ -82,10 +96,7 @@ class LoginForm extends React.Component{
   const Facebook = props => (
     <a href="#" id="facebookIcon"></a>
   );
-  
-  const Twitter = props => (
-    <a href="#" id="twitterIcon"></a>
-  );
+
   
   const Google = props => (
     <a href="#" id="googleIcon"></a>

@@ -8,29 +8,37 @@ import Footer from '../../components/footer/footer.js'
 import LoginPage from '../login-page/login.js'
 import Exam from '../../components/exam/exam.js'
 import './homepage.css'
-import {Switch, Route} from 'react-router-dom'
+import {Link, Switch, Route, Router} from 'react-router-dom'
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Payment from '../payment-page/payment.js'
 import Overview from '../overview-page/overview.js'
+import Admin from '../adminpage/admin.js'
 const Home = () => {
     return (
-    <div>
+    // <div>
         
-        <Header/>
-        {/* <div id="banner"></div> */}
-        {/* <Author></Author> */}
+    //     {/* <Header/> */}
+    //     {/* <div id="banner"></div> */}
+    //     {/* <Author></Author> */}
         
-        {/* <Course></Course> */}
-        <Overview></Overview>
+    //     {/* <Course></Course> */}
+    //     {/* <Overview></Overview> */}
         
-        {/* <Contact></Contact> */}
-        {/* <Payment></Payment> */}
-        {/* <Exam></Exam> */}
-        {/* <LoginPage></LoginPage> */}
-        {/* <Footer></Footer> */}
+    //     {/* <Contact></Contact> */}
+    //     {/* <Payment></Payment> */}
+    //     {/* <Exam></Exam> */}
+    //     <LoginPage></LoginPage>
+    //     {/* <Footer></Footer> */}
         
-    </div>
+    // </div>
+    <Switch>
+        <Route exact path="/">
+            <LoginPage></LoginPage>
+        </Route>
+        <Route exact path="/home" component={Course}></Route>
+        <Route exact path="/admin" component={Admin}></Route>
+    </Switch>
 
     )
 }

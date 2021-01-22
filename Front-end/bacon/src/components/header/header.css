@@ -168,11 +168,15 @@ input:focus {
   transition: all .25s;
   font-size: 14px;
 }
+.button-login{
+  display: none;
+}
 .button-login:hover{
   background-color: aquamarine;
 }
 .button-signup{
   background-color: #ffe54c;
+  display: none;
 }
 .button-signup:hover{
   background-color: aquamarine;

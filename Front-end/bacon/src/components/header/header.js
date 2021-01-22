@@ -13,7 +13,13 @@ class Header extends React.Component{
     myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
       }
-
+    logOut(x){
+        console.log("LOGOUT: " + x.toString());
+        const token = localStorage.getItem("token");
+        console.log(token)
+        localStorage.removeItem("token");
+        x = !x;
+    }
     render(){
         return(
         <div className="header">
@@ -50,7 +56,10 @@ class Header extends React.Component{
                     <div className="header-button button-signup">
                         <p>Sign up</p>
                     </div>
-                    <div className="header-button button-user">
+                    <div 
+                    className="header-button button-user"
+                    onClick={() => this.logOut(this.props.logIn)}
+                    >
                         <p>Shiro</p>
                     </div>
                 </div>  

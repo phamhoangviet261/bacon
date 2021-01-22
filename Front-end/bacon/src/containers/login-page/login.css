@@ -14,10 +14,11 @@ html{
   max-width: 500px;
   min-width: 300px;
   max-height: 700px;
+  min-height: 900px;
   width: 30%;
   height: 60%;
   margin: 0px auto;
-  padding-top: 100px;
+  padding-top: 120px;
   background-color: #FFFFFF;
   border-radius: 25px;
 }

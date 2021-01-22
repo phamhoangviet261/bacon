@@ -40,9 +40,8 @@
     cursor: pointer;
     border-top: black solid 1px;
 } 
-.lesson{
-  width: 100%;
-  cursor: pointer;
+.lesson:hover{
+  /* background-color: #BEC4D6; */
 }
 /*  */
 .content-lesson{

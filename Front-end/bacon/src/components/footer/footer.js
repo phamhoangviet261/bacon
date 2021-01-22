@@ -36,8 +36,8 @@ class Footer extends React.Component
                     <p>Email: support@bacon.com</p>
                     <p>Phone: 0373597130</p>
                     <div className="footer-tag-social">
-                        <Facebook />
-                        <Twitter />
+                        {/* <Facebook /> */}
+                        {/* <Twitter /> */}
                         
                     </div>
                 </div>
