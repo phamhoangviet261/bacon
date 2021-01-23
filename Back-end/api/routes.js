@@ -15,8 +15,9 @@ const reviewScoreController = require('./controllers/ReviewController');
 
 module.exports = function route (app) {
     // Table Members
-    app.route('/members/')
-        .get(memberController.login)
+    app.route('/members/login')
+        .post(memberController.login);
+    app.route('/member/register')
         .post(memberController.register);
 
     app.use('/members/:username/', memberInfoController.middleware);
