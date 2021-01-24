@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/bacon/static/css/main.ac693e70.chunk.css",
+    "main.js": "/bacon/static/js/main.48c6627d.chunk.js",
+    "main.js.map": "/bacon/static/js/main.48c6627d.chunk.js.map",
+    "runtime-main.js": "/bacon/static/js/runtime-main.048af54d.js",
+    "runtime-main.js.map": "/bacon/static/js/runtime-main.048af54d.js.map",
+    "static/js/2.6d93772e.chunk.js": "/bacon/static/js/2.6d93772e.chunk.js",
+    "static/js/2.6d93772e.chunk.js.map": "/bacon/static/js/2.6d93772e.chunk.js.map",
+    "static/js/3.5d9d83ba.chunk.js": "/bacon/static/js/3.5d9d83ba.chunk.js",
+    "static/js/3.5d9d83ba.chunk.js.map": "/bacon/static/js/3.5d9d83ba.chunk.js.map",
+    "index.html": "/bacon/index.html",
+    "static/css/main.ac693e70.chunk.css.map": "/bacon/static/css/main.ac693e70.chunk.css.map",
+    "static/js/2.6d93772e.chunk.js.LICENSE.txt": "/bacon/static/js/2.6d93772e.chunk.js.LICENSE.txt",
+    "static/media/course.jpg": "/bacon/static/media/course.15c267f6.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.048af54d.js",
+    "static/js/2.6d93772e.chunk.js",
+    "static/css/main.ac693e70.chunk.css",
+    "static/js/main.48c6627d.chunk.js"
+  ]
+}
