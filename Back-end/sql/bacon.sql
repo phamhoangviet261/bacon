@@ -21,11 +21,11 @@ USE `CNPM18_COURSERA_DATABASE`;
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Answers
 DROP TABLE IF EXISTS `Answers`;
 CREATE TABLE IF NOT EXISTS `Answers` (
-  `id_question` int NOT NULL,
+  `id_question` int NOT NULL AUTO_INCREMENT,
   `content` longtext COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_question`),
   CONSTRAINT `fk_Answers_Questions` FOREIGN KEY (`id_question`) REFERENCES `Questions` (`id_question`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
@@ -74,8 +74,9 @@ CREATE PROCEDURE `create_question`(
 	IN `score` INT
 )
 BEGIN
-	insert into Answers(content) values (NULL);
+	
    insert into Question(id_test, content, score) values (id_test, content, score);
+   insert into Answers(content) values (NULL);
 END//
 DELIMITER ;
 
