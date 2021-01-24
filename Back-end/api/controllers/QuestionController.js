@@ -4,7 +4,7 @@ const db = require('./../db');
 
 module.exports = {
     show: async (req, res) => {
-        let sql = 'select id_question, id_test, name, content, score ' +
+        let sql = 'select id_question, content, score ' +
         'from Questions where id_test =  ?';
 
         const values = [req.params.id_test];
