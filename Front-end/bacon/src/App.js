@@ -47,12 +47,13 @@ function App() {
           
           <div className="content">
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact path="/" component={() => <ListCourse isLogin={false} />}/>
+              <Route exact path="/home" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/course" component={Course} />
               <Route exact path="/overview" component={Overview} />
-              <Route exact path="/list" component={ListCourse} />
+              <Route exact path="/list" component={() => <ListCourse isLogin={true} />}/>
               <Route exact path="/payment" component={Payment} />
               <Route exact path="/registration" component={Registration} />
             </Switch>

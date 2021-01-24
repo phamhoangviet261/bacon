@@ -41,7 +41,7 @@ class listCourse extends Component{
     render() {
         return (
             <div>
-                <Header isLogin="true"></Header>
+                <Header isLogin={this.props.isLogin}></Header>
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></link>
                 <div className="list-course-title">Courses</div>
                  <div className="container">

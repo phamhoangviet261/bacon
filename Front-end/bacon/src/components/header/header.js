@@ -1,6 +1,8 @@
 import React from 'react';
 import {NavLink, Link} from 'react-router-dom'
-
+import axios from 'axios';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import './header.css'
 import './header-style.js'
 // import { NavLink } from 'react-router-dom';
@@ -13,12 +15,34 @@ class Header extends React.Component{
     myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
       }
-    logOut(x){
-        console.log("LOGOUT: " + x.toString());
-        const token = localStorage.getItem("token");
-        console.log(token)
-        localStorage.removeItem("token");
-        x = !x;
+    logIn(){
+        window.location = "http://localhost:3001/login"
+    }
+    logOut = async () => {
+        //window.location = "http://localhost:3001/registration"
+        const MySwal = withReactContent(Swal)
+        const { value: formValues } = await MySwal.fire({
+            title: 'Multiple inputs',
+            html:
+              '<p>Your name:<p>' +
+              '<input id="swal-input1" class="swal2-input">' +
+              '<p>Your email:<p>' +
+              '<input id="swal-input2" class="swal2-input">' +
+              '<p>Your password:<p>' +
+              '<input id="swal-input3" class="swal2-input">',
+            focusConfirm: false,
+            preConfirm: () => {
+              return [
+                document.getElementById('swal-input1').value,
+                document.getElementById('swal-input2').value,
+                document.getElementById('swal-input3').value
+              ]
+            }
+          })
+          
+          if (formValues) {
+            MySwal.fire(JSON.stringify(formValues))
+          }
     }
 
     componentDidMount(){
@@ -29,6 +53,11 @@ class Header extends React.Component{
             console.log("Logged")
             document.getElementById("btn-login").style.display = "none";
             document.getElementById("btn-signup").style.display = "none";
+            document.getElementById("btn-user").style.display = "block";
+        } else {
+            document.getElementById("btn-login").style.display = "block";
+            document.getElementById("btn-signup").style.display = "block";
+            document.getElementById("btn-user").style.display = "none";
         }
     }
 
@@ -62,10 +91,10 @@ class Header extends React.Component{
                     {/* Chỗ này để 2 cái button nè, 
                     nếu mà login rồi thì không có 2 button đó 
                     mà là button người dùng */}
-                    <div id="btn-login" className="header-button button-login">
+                    <div onClick={() => this.logIn()} id="btn-login" className="header-button button-login">
                         <p>Log in</p>
                     </div>
-                    <div id="btn-signup" className="header-button button-signup">
+                    <div onClick={() => this.logOut()} id="btn-signup" className="header-button button-signup">
                         <p>Sign up</p>
                     </div>
                     <div id="btn-user"

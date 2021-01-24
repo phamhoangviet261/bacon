@@ -224,7 +224,7 @@ function ProtectedPage() {
 }
 
 function LoginPage() {
-  document.getElementById("login-form").style.display = "block";
+  if(document.getElementById("login-form")) document.getElementById("login-form").style.display = "block";
   let history = useHistory();
   let location = useLocation();
   let auth = useAuth();
@@ -239,10 +239,7 @@ function LoginPage() {
   
   return (
     <div>
-      <script>
-      
-      </script>
-      <p>You must log in to view the page at {from.pathname}</p>
+      <p></p>
       {/* <button onClick={login}>Log in</button> */}
     </div>
   );
