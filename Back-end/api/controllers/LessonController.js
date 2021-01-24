@@ -16,7 +16,7 @@ module.exports = {
             value.push(req.params.id_lesson);
         }
         try {
-            const result = await db.execute(sql, value);
+            const [result] = await db.execute(sql, value);
             res.status(200)
                 .type('json')
                 .json(result);
@@ -77,7 +77,7 @@ module.exports = {
             return;
         }
 
-        const sql = 'insert into Lesson (`name`, `length`, `content`, `id_course`) ' +
+        const sql = 'insert into Lessons (`name`, `length`, `content`, `id_course`) ' +
         'values (?, ?, ?, ?)';
 
         try {
@@ -94,6 +94,7 @@ module.exports = {
                     message: 'Tạo thành công',
                 });
         } catch (e) {
+            console.log(e);
             res.status(500)
                 .type('json')
                 .json({
@@ -103,10 +104,10 @@ module.exports = {
     },
 
     update: async (req, res) => {
-        let sql = 'select meminfo.id_member as "teacher_id" from MembersInfo ' +
+        let sql = 'select id_member as "teacher_id" from Courses ' +
         'where id_course = ?';
         try {
-            const result = await db.execute(sql, [req.params.id_course]);
+            const [result] = await db.execute(sql, [req.params.id_course]);
 
             if (result.length < 1) {
                 res.status(404)
@@ -173,9 +174,9 @@ module.exports = {
             }
 
             sql = 'update Lessons set `name` = ?, ' +
-        '`length` = ?, ' +
-        '`content` = ?, ' +
-        'where id_course = ? AND id_lesson = ?';
+                '`length` = ?, ' +
+                '`content` = ?, ' +
+                'where id_course = ? AND id_lesson = ?';
 
             await db.execute(sql, [
                 req.body.name,

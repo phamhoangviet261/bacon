@@ -4,7 +4,7 @@ const db = require('./../db');
 
 module.exports = {
     show: async (req, res) => {
-        let sql = 'select id_question, id_test, name, content, score ' +
+        let sql = 'select id_question, content, score ' +
         'from Questions where id_test =  ?';
 
         const values = [req.params.id_test];
@@ -15,7 +15,7 @@ module.exports = {
             values.push(req.params.id_question);
         }
         try {
-            const result = await db.execute(sql, values);
+            const [result] = await db.execute(sql, values);
             res.status(200)
                 .type('json')
                 .json(result);
@@ -85,10 +85,10 @@ module.exports = {
     },
 
     update: async (req, res) => {
-        let sql = 'select meminfo.id_member as "teacher_id" from MembersInfo ' +
+        let sql = 'select id_member as "teacher_id" from Courses ' +
         'where id_course = ?';
         try {
-            const result = await db.execute(sql, [req.params.id_course]);
+            const [result] = await db.execute(sql, [req.params.id_course]);
             if (result.length < 1) {
                 res.status(404)
                     .type('json')
@@ -140,8 +140,8 @@ module.exports = {
             }
 
             sql = 'update Questions set `content` = ?, ' +
-        '`score` = ?, ' +
-        'where id_test = ? AND id_question  = ?';
+                    '`score` = ?, ' +
+                    'where id_test = ? AND id_question  = ?';
 
             await db.execute(sql, [
                 req.body.content,

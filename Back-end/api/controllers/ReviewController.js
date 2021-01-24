@@ -14,7 +14,7 @@ module.exports = {
             values.push(req.params.id_course);
         }
         try {
-            const result = await db.execute(sql, values);
+            const [result] = await db.execute(sql, values);
             res.status(200)
                 .type('json')
                 .json(result);
@@ -72,7 +72,7 @@ module.exports = {
             }
 
             const sql = 'insert into Reviews (`id_member`, `id_course`, `star`, `content`) ' +
-        'values (?, ?, ?, ?)';
+                        'values (?, ?, ?, ?)';
 
             await db.execute(sql, [
                 req.params.id_member,
@@ -140,9 +140,9 @@ module.exports = {
             }
 
             const sql = 'update Reviews ' +
-        ' set `star` = ?, ' +
-        '`content` = ?, ' +
-        'where id_member = ? AND id_course  = ?';
+                ' set `star` = ?, ' +
+                '`content` = ?, ' +
+                'where id_member = ? AND id_course  = ?';
 
             await db.execute(sql, [
                 req.body.star,

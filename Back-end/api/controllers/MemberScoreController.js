@@ -12,7 +12,7 @@ module.exports = {
             values.push(req.params.id_test);
         }
         try {
-            const result = await db.execute(sql, values);
+            const [result] = await db.execute(sql, values);
             res.status(200)
                 .type('json')
                 .json(result);
