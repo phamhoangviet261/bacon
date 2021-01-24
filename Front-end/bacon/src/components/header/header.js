@@ -36,29 +36,42 @@ class Header extends React.Component{
               '<input id="swal-input3" class="swal2-input">',
             focusConfirm: false,
             preConfirm: () => {
-              return [
-                document.getElementById('swal-input1').value,
-                document.getElementById('swal-input2').value,
-                document.getElementById('swal-input3').value
-              ]
+              return {
+                "username": document.getElementById('swal-input1').value,
+                "password": document.getElementById('swal-input3').value,
+                "email": document.getElementById('swal-input2').value
+              }
             }
           })
           
           if (formValues) {
-            MySwal.fire(JSON.stringify(formValues));
-            const x = JSON.stringify(formValues);
-            console.log(x)
-            const doitnow = () => {
-                alert("nguuu");
-                axios.post('http://127.0.0.1:3000/members/register', {
-                    x
-                })  .catch(function (error) {
+            //MySwal.fire(JSON.stringify(formValues));
+            let x = JSON.parse(JSON.stringify(formValues));
+            console.log(x);
+            console.log(x.email)
+            console.log(typeof(x.email))
+            console.log(typeof(x));
+            console.log(typeof({
+                "username": "a",
+                "password": "a",
+                "email": "a"
+        }));
+            const doitnow = (x) => {
+                //alert("nguuu");
+                axios.post('http://vinaworld.dynu.net/api/members/register',{
+                    "username": x.username,
+                    "password": x.password,
+                    "email": x.email
+                })  
+                .catch(function (error) {
                         if (error.response) {
                         // The request was made and the server responded with a status code
                         // that falls out of the range of 2xx
+                        MySwal.fire(error.response.data.message + ": " + error.response.data.errors[0].message);
                         console.log(error.response.data);
                         console.log(error.response.status);
                         console.log(error.response.headers);
+                        
                     } else if (error.request) {
                         // The request was made but no response was received
                         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -71,6 +84,7 @@ class Header extends React.Component{
                         console.log(error.config);
                     });
             }
+            doitnow(x);
           }
     }
     logOut(){

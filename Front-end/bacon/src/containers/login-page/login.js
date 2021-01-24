@@ -64,7 +64,7 @@ function Login(props) {
 
           <ul>
             <li>
-              <Link to="/public">Register</Link>
+              <Link to="/list">Register</Link>
             </li>
             <li>
               <Link to="/protected">Login</Link>
