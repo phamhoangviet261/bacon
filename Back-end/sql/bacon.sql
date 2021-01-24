@@ -98,7 +98,7 @@ DELIMITER ;
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Documents
 DROP TABLE IF EXISTS `Documents`;
 CREATE TABLE IF NOT EXISTS `Documents` (
-  `id_document` int NOT NULL,
+  `id_document` int NOT NULL AUTO_INCREMENT,
   `id_course` int DEFAULT NULL,
   `type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_upload` date DEFAULT NULL,
