@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import './payment.css'
 class Payment extends Component {
     constructor(props){
@@ -12,15 +14,35 @@ class Payment extends Component {
             let x = document.getElementById('visa');         
             x.style.display = "block";
             let y = document.getElementById('paypal')
-            y.style.display = "none";           
-        } else if(att === 'paypal'){
+            y.style.display = "none";   
+            document.getElementById('chooseVisa').classList.add('choose');  
+            document.getElementById('choosePaypal').classList.remove('choose');      
+        } 
+        else if(att === 'paypal')
+        {
             let x = document.getElementById('paypal');         
             x.style.display = "block";
             let y = document.getElementById('visa')
             y.style.display = "none"; 
+            document.getElementById('choosePaypal').classList.add('choose');  
+            document.getElementById('chooseVisa').classList.remove('choose');  
         }
     }
-
+    submitPayment(){
+        const MySwal = withReactContent(Swal);
+        MySwal.fire({
+            title: <p>About this course</p>,
+            text: "",
+            footer: 'Copyright 2021',
+            buttons: [
+                'No, cancel it!',
+                'Yes, I am sure!'
+              ],
+          }).then(function(isConfirm) {
+            if (isConfirm) {
+            }}
+          );
+    }
     render(){
         return (
             <div className="payment">
@@ -32,8 +54,8 @@ class Payment extends Component {
                 </div>
                 <div className="payment-form">
                     <div className="choose-payment">
-                        <div className="choose-visa" onClick={()=>this.show_hide('visa')}><h3>VISA</h3></div>
-                        <div className="choose-paypal" onClick={()=>this.show_hide('paypal')}><h3>PAYPAL</h3></div>
+                        <div id="chooseVisa" className="choose-visa choose" onClick={()=>this.show_hide('visa')}><h3>VISA</h3></div>
+                        <div id="choosePaypal" className="choose-paypal" onClick={()=>this.show_hide('paypal')}><h3>PAYPAL</h3></div>
                     </div>
                     <div className="visa-and-paypal">
                     <div id="visa" className="visa">
@@ -80,7 +102,7 @@ class Payment extends Component {
                                     
                                 </div>
                             </div>
-                        <button className="btn-submit" type="submit" value="Submit">Pay now</button>
+                        <button onSubmit={()=>{return false;}} onClick={()=>this.submitPayment()} className="btn-submit" value="">Pay now</button>
                         <p>I agree to the Terms of Use, Refund Policy, and Privacy Policy.</p>
                         </form>
                     </div>
@@ -123,7 +145,7 @@ class Payment extends Component {
                                 </div>
                             </div>
                             
-                            <button className="btn-submit" type="submit" value="Submit">Pay now</button>
+                            <button onSubmit={()=>{return false;}} onClick={()=>this.submitPayment()} className="btn-submit" value="">Pay now</button>
                             <p>I agree to the Terms of Use, Refund Policy, and Privacy Policy.</p>
                         </form>
                     </div>
@@ -134,20 +156,7 @@ class Payment extends Component {
     }
 }
 
-function Checkbox() {
-    const [checked, setChecked] = React.useState(true);
-  
-    return (
-      <label>
-        <input type="checkbox"
-          checked={checked}
-          onChange={() => setChecked(!checked)}
-        />
-        Check Me!
-      </label>
-    );
-  }
-  
+
   
 
 export default Payment

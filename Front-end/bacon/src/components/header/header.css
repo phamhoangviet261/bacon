@@ -1,6 +1,7 @@
 .header {
     width: 100%;
     height: 80px;
+    margin-top: -45px;
     background-color: none;
     display: flex;
     position: fixed;
@@ -169,14 +170,14 @@ input:focus {
   font-size: 14px;
 }
 .button-login{
-  display: none;
+  /* display: none; */
 }
 .button-login:hover{
   background-color: aquamarine;
 }
 .button-signup{
   background-color: #ffe54c;
-  display: none;
+  /* display: none; */
 }
 .button-signup:hover{
   background-color: aquamarine;

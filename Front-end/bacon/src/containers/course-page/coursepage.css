@@ -47,8 +47,8 @@
 .content-lesson{
     display: flex;
 }
-.isActiveBar{
-  width: 5px;
+.isActiveBarCourse{
+  width: 10px;
   height: 40px;
   background-color: #c47135;
 }

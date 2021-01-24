@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import './overview.css'
 
 class Overview extends Component{
@@ -48,12 +50,35 @@ class Overview extends Component{
         })
 
     }
-
+    back(){
+        let x = document.getElementById("btnBack");
+        x.addEventListener('click', () => {
+            setInterval(window.location = "http://localhost:3001/list", 10);
+        })
+    }
+    next(){
+        let x = document.getElementById("btnNext");
+        x.addEventListener('click', () => {
+            const MySwal = withReactContent(Swal);
+            MySwal.fire({
+                title: <p>Pay to unlock this course.</p>,
+                showCancelButton: true
+              }).then(function(isConfirm) {
+                if (isConfirm) {
+                window.location = "http://localhost:3001/payment"
+                }}
+              )
+        })
+    }
     render(){
         console.log(this.state);
         return (      
             <div id="overview-page">
                 <div id="overview-sidebar">
+                    <div id="overview-sidebar-go">
+                        <button id="btnBack" onClick={()=>this.back()}><p>BACK </p></button>
+                        <button id="btnNext" onClick={()=>this.next()}><p>NEXT </p></button>
+                    </div>
                     <div className="overview-sidebar-child" id="overview-sidebar-overview" onClick={this.showOverview}>
                         <div className="overview-sidebar-title"><p>Overview</p></div>
                         
@@ -62,6 +87,7 @@ class Overview extends Component{
                         {
                             this.state.overview.weekId.map(item => (
                                 <div className="overview-sidebar-week-child"
+                                key={item}
                                 onClick={() => this.changeWeek(item)}
                                 >
                                     <p>Week</p>
@@ -120,7 +146,7 @@ const Week = (props) => (
             <li>Practice solving programming challenges</li>
             <li>Implement programs that are several orders of magnitude faster than straightforward programs</li>
         </div>
-        <div id="overview-container-week-videoname" class="overview-container-week-videoname">
+        <div id="overview-container-week-videoname" className="overview-container-week-videoname">
             <h2>{props.videoname}</h2>
         </div>
     </div>

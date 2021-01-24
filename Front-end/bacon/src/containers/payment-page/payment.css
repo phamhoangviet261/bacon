@@ -36,6 +36,9 @@ span{
     padding-right: 20px;
 }
 /* CHOOSE PAYMENT */
+.choose {
+    background-color: cadetblue;
+}
 .choose-payment{
     display: flex;
 }
@@ -47,6 +50,9 @@ span{
 }
 .choose-visa:hover{
     background-color: blueviolet;
+}
+.choose-visa h3{
+
 }
 .choose-paypal {
     width: 100px;

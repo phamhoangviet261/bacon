@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom'
 import './index.css';
 import App from './App';
+import LC from './containers/course-page/coursepage.js'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

@@ -3,16 +3,20 @@ import '../dashboard/dashboard.css'
 import { getUser, removeUserSession } from '../../Utils/Common';
  
 function Dashboard(props) {
-  const user = getUser();
+  //const user = getUser();
+  const user = {name: "Shiro"}
  
   // handle click event of logout button
   const handleLogout = () => {
     removeUserSession();
-    props.history.push('/login');
+    const { history } = props;
+    console.log("--> " + history)
+    history.push("/login")
+    //props.history.push('/login');
   }
  
   return (
-    <div class="dashboard-content">
+    <div className="dashboard-content">
       Welcome {user.name}!<br /><br />
       <input type="button" onClick={handleLogout} value="Logout" />
     </div>

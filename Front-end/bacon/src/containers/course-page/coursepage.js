@@ -6,9 +6,12 @@ import './coursepage.css'
 import './script.js'
 
 import Header from '../../components/header/header.js'
-class Course extends Component {
+class Course extends React.Component {
     constructor(props){
         super(props);
+        this.changeLinkVideo = this.changeLinkVideo.bind(this);
+        this.showTest = this.showTest.bind(this);
+        this.showBook = this.showBook.bind(this);
         this.state = {
             idVideo: ["0", "1", "2", "3", "4", "5", "6", "7", "8"],
             name: ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
@@ -37,21 +40,23 @@ class Course extends Component {
         }
         
 
-        this.changeLinkVideo = this.changeLinkVideo.bind(this);
-        this.showBook = this.showBook.bind(this)
+       
     }
     changeLinkVideo(id){
+        console.log(this.state);
         document.getElementById("screen-video").style.display = "block";
         document.getElementById("screen-book").style.display = "none";
         document.getElementById("screen-test").style.display = "none";
         let link = this.state.linkVideo[parseInt(id)];
-        // console.log(link);
-        this.setState(state => ({
+        console.log(link);
+        this.setState = ({
             linkVideoPlaying: link
-          }));
+          });
+        console.log(this.state);
         console.log("ID: "  + id);
         console.log("Link: " + link)
-        console.log(this.state);
+        //this.setState({ state: this.state });
+        //this.forceUpdate();
     }
 
     showTest(id) {
@@ -71,25 +76,25 @@ class Course extends Component {
         id = parseInt(id) + 2;
         
         
-        let x = document.querySelector("#root > div > div > div:nth-child(3) > div.menu-course > div:nth-child(" + id +") > div.menu-lesson")
+        let x = document.querySelector("#root > div > div > div > div > div.menu-course > div:nth-child("+ id +") > div.menu-lesson")
+        //document.querySelector("#root > div > div > div > div > div.menu-course > div:nth-child("+ id +") > div.menu-lesson")
         if (x.style.display === "none" || x.style.display === "") {
             x.style.display = "block";
             // x.scrollIntoView();
           } else {
             x.style.display = "none";
           }
-        let y = document.querySelector("#root > div > div > div:nth-child(3) > div.menu-course > div:nth-child(" + id +") > div:nth-child(1) > div > div.activeBar")
-        if(!y.classList.contains("isActiveBar")){
-            y.className += " isActiveBar";
+        let y = document.querySelector("#root > div > div > div > div > div.menu-course > div:nth-child("+id+") > div:nth-child(1) > div > div.activeBar")
+        //document.querySelector("#root > div > div > div > div > div.menu-course > div:nth-child("+id+") > div:nth-child(1) > div > div.activeBar")
+        if(!y.classList.contains("isActiveBarCourse")){
+            y.className += " isActiveBarCourse";
         } else {
             y.className = "activeBar";
         }
     }
 
     render() {
-        if(this.state.isLoggedIn){
-            return <Redirect to="/"></Redirect>
-          }
+        console.log("ccccccccccc");
         return (
             <div>
                 <Header logIn={this.state.loggedIn}></Header>

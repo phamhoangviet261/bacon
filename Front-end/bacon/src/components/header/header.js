@@ -20,6 +20,18 @@ class Header extends React.Component{
         localStorage.removeItem("token");
         x = !x;
     }
+
+    componentDidMount(){
+        console.log(this.props.isLogin);
+        document.getElementById("nav-header").style.display = "none";
+        document.getElementById("btn-header").style.marginLeft = "400px";
+        if(this.props.isLogin=="true"){
+            console.log("Logged")
+            document.getElementById("btn-login").style.display = "none";
+            document.getElementById("btn-signup").style.display = "none";
+        }
+    }
+
     render(){
         return(
         <div className="header">
@@ -29,14 +41,14 @@ class Header extends React.Component{
             <div className="search-bar">
                 <input type="text" name="search" placeholder="Search..."/>
             </div>
-            <div className="containerflex" title="" data-toggle="tooltip" data-placement="top">
-                <nav role="navigation" class="primary-navigation">
+            <div id="nav-header" className="containerflex" title="" data-toggle="tooltip" data-placement="top">
+                <nav role="navigation" className="primary-navigation">
                     <ul>
                         <li><a href="#">Home</a></li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">Work</a>
-                        <ul class="dropdown">
+                        <ul className="dropdown">
                             <li><a href="#">Web Development</a></li>
                             <li><a href="#">Web Design</a></li>
                             <li><a href="#">Illustration</a></li>
@@ -46,17 +58,17 @@ class Header extends React.Component{
                     </ul>
                 </nav>                     
             </div>
-            <div className="header-button-container">
+            <div id="btn-header" className="header-button-container">
                     {/* Chỗ này để 2 cái button nè, 
                     nếu mà login rồi thì không có 2 button đó 
                     mà là button người dùng */}
-                    <div className="header-button button-login">
+                    <div id="btn-login" className="header-button button-login">
                         <p>Log in</p>
                     </div>
-                    <div className="header-button button-signup">
+                    <div id="btn-signup" className="header-button button-signup">
                         <p>Sign up</p>
                     </div>
-                    <div 
+                    <div id="btn-user"
                     className="header-button button-user"
                     onClick={() => this.logOut(this.props.logIn)}
                     >
