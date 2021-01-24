@@ -94,6 +94,7 @@ module.exports = {
                     message: 'Tạo thành công',
                 });
         } catch (e) {
+            console.log(e);
             res.status(500)
                 .type('json')
                 .json({

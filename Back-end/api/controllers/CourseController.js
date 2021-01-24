@@ -87,7 +87,7 @@ module.exports = {
                     errors: [
                         {
                             message: 'Thiếu chủ đề',
-                            field: 'name',
+                            field: 'subject',
                         },
                     ],
                 });
