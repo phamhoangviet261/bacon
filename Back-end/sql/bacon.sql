@@ -74,7 +74,7 @@ CREATE PROCEDURE `create_question`(
 	IN `score` INT
 )
 BEGIN
-	insert into Answer(content) values (NULL);
+	insert into Answers(content) values (NULL);
    insert into Question(id_test, content, score) values (id_test, content, score);
 END//
 DELIMITER ;
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `Documents` (
   PRIMARY KEY (`id_document`),
   KEY `fk_Documents_Lessons_idx` (`id_course`) USING BTREE,
   CONSTRAINT `fk_Documents_Courses` FOREIGN KEY (`id_course`) REFERENCES `Courses` (`id_course`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
