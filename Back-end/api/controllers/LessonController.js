@@ -77,7 +77,7 @@ module.exports = {
             return;
         }
 
-        const sql = 'insert into Lesson (`name`, `length`, `content`, `id_course`) ' +
+        const sql = 'insert into Lessons (`name`, `length`, `content`, `id_course`) ' +
         'values (?, ?, ?, ?)';
 
         try {
