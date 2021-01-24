@@ -154,7 +154,7 @@ module.exports = {
     },
 
     update: async (req, res) => {
-        let sql = 'select meminfo.id_member as "teacher_id" from MembersInfo ' +
+        let sql = 'select id_member as "teacher_id" from Courses ' +
         'where id_course = ?';
 
         let result;

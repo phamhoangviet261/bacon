@@ -26,7 +26,7 @@ module.exports = {
 
     update: async (req, res) => {
         try {
-            let sql = 'select meminfo.id_member as "teacher_id" from MembersInfo ' +
+            let sql = 'select id_member as "teacher_id" from Courses ' +
             'where id_course = ?';
 
             const result = await db.execute(sql, [req.params.id_course]);
