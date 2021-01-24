@@ -20,7 +20,6 @@ module.exports = function route (app) {
     app.route('/member/register')
         .post(memberController.register);
 
-
     app.route('/members/:username/')
         .get(memberInfoController.show)
         .put(memberInfoController.edit);

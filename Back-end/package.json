@@ -4,7 +4,8 @@
   "description": "Backend of Bacon website",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "start_prod": "pm2 start server.js"
   },
   "author": "",
   "license": "ISC",
