@@ -1,27 +1,68 @@
 import Home from './containers/home-page/homepage.js'
-import LoginForm from './containers/login-page/login.js'
-import {Switch, Route} from 'react-router-dom'
-import React, { Component } from 'react'
+import Login from './containers/login-page/login.js'
+import Dashboard from './containers/dashboard/dashboard.js'
+import Course from './containers/course-page/coursepage.js'
+import ListCourse from './components/listCourse/listCourse.js'
+import Overview from './containers/overview-page/overview.js'
+import Payment from './containers/payment-page/payment.js'
+import Registration from './containers/register-page/register.js'
+import {Switch, Route, BrowserRouter, NavLink} from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 
 
-class App extends React.Component { 
-  state = { isLog: false}
-
-  handleLogin = (isLog) => {
-    return this.setState({isLog})
-  }
-
-  render (){
-    const {isLog} = this.state;
-    return (
-      <div>       
-        <Switch>
-        <Route exact path='/' render={() => !isLog ?<LoginForm isLogin={value => this.handleLogin(value)}/>:<Home/>}></Route>
-        <Route exact path='/hihi' render={()=> <h1>Hihi</h1>}/>
-        </Switch>
-      </div>
-    );
-  }
+import PrivateRoute from './Utils/PrivateRoute';
+import PublicRoute from './Utils/PublicRoute';
+import { getToken, removeUserSession, setUserSession } from './Utils/Common';
+ 
+function App() {
+  global.isLogin = false;
+  const [authLoading, setAuthLoading] = useState(true);
+ 
+  useEffect(() => {
+    const token = getToken();
+    console.log(token);
+    if (!token) {
+      return;
+    }
+ 
+    
+  }, []);
+ 
+  // if (authLoading && getToken()) {
+  //   //removeUserSession();
+  //   console.log("huhu");
+  //   return( <div className="App">
+    
+  //   {/* <Course></Course> */}
+  //   <Dashboard></Dashboard>
+  //   </div>)
+  //   //
+  // }
+ 
+  return (
+    <div className="App">
+      {/* <BrowserRouter> */}
+        <div>
+          
+          <div className="content">
+            <Switch>
+              <Route exact path="/" component={() => <ListCourse isLogin={false} />}/>
+              <Route exact path="/home" component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/course" component={Course} />
+              <Route exact path="/overview" component={Overview} />
+              <Route exact path="/list" component={() => <ListCourse isLogin={true} />}/>
+              <Route exact path="/payment" component={Payment} />
+              <Route exact path="/registration" component={Registration} />
+            </Switch>
+          </div>
+        </div>
+      {/* </BrowserRouter> */}
+      
+    </div>
+  );
 }
-
+ 
 export default App;
