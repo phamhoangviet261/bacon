@@ -17,7 +17,7 @@ module.exports = function route (app) {
     // Table Members
     app.route('/members/login')
         .post(memberController.login);
-    app.route('/member/register')
+    app.route('/members/register')
         .post(memberController.register);
 
     app.route('/members/:username/')
