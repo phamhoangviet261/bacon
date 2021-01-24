@@ -2,6 +2,9 @@
   margin-top: 100px;
   text-align: left;
   margin: auto 0;
+  position: absolute;
+		  left: 50%;
+		  margin-left: -100px;
 }
 #choose-login ul li{
   list-style: none;

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, setState  } from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import $ from 'jquery'
 import Exam from '../../components/exam/exam.js'
@@ -9,13 +9,11 @@ import Header from '../../components/header/header.js'
 class Course extends React.Component {
     constructor(props){
         super(props);
-        this.changeLinkVideo = this.changeLinkVideo.bind(this);
-        this.showTest = this.showTest.bind(this);
-        this.showBook = this.showBook.bind(this);
         this.state = {
             idVideo: ["0", "1", "2", "3", "4", "5", "6", "7", "8"],
-            name: ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
-            isView: [ false, false, false],
+            name: ["Getting Started.", "Input and Output in Javascript.", "Hello World", "Condition Sentence and Loop", 
+                    "Variable ans Scope", "This Operator", "Function", "ES6", "Final Project"],
+            isView: [ false, false, false, false, false, false, false, false],
             linkVideo: [
                 "https://www.youtube.com/embed/UCXao7aTDQM",
                 "https://www.youtube.com/embed/0I647GU3Jsc",
@@ -28,7 +26,8 @@ class Course extends React.Component {
                 "https://www.youtube.com/embed/V5GS5ANG96M"
             ],
             linkVideoPlaying: "https://www.youtube.com/embed/UCXao7aTDQM" ,
-            isLoggedIn: true
+            isLoggedIn: true,
+            
         }
 
         const token = localStorage.getItem("token");
@@ -38,18 +37,20 @@ class Course extends React.Component {
                 isLoggedIn: false
             }
         }
-        
+        this.changeLinkVideo = this.changeLinkVideo.bind(this);
+        this.showTest = this.showTest.bind(this);
+        this.showBook = this.showBook.bind(this);
 
        
     }
-    changeLinkVideo(id){
+    changeLinkVideo = (id) => {
         console.log(this.state);
         document.getElementById("screen-video").style.display = "block";
         document.getElementById("screen-book").style.display = "none";
         document.getElementById("screen-test").style.display = "none";
         let link = this.state.linkVideo[parseInt(id)];
         console.log(link);
-        this.setState = ({
+        this.setState({
             linkVideoPlaying: link
           });
         console.log(this.state);

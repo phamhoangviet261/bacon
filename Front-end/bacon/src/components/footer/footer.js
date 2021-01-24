@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './footer.css'
 class Footer extends React.Component
 {
@@ -33,6 +34,7 @@ class Footer extends React.Component
             <div className="footer-tag">
                 <div className="footer-tag-header"><p>CONTACT</p></div>
                 <div className="footer-tag-content">
+                    <Link to="/aboutus"><p>See us</p></Link>
                     <p>Email: support@bacon.com</p>
                     <p>Phone: 0373597130</p>
                     <div className="footer-tag-social">

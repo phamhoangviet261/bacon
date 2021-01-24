@@ -10,6 +10,7 @@ import './listCourse.css'
 //import Pic1 from '../../assets/images/download.jfif'
 import Pic1 from '../../assets/images/course.jpg'
 import Header from '../../components/header/header.js'
+import Footer from '../footer/footer.js'
 class listCourse extends Component{
     constructor(props){
         super(props);
@@ -110,8 +111,215 @@ class listCourse extends Component{
                         </article>
                         
             </main>
+            {/* <Footer></Footer> */}
             </div>          
-            
+            <div className="container">
+                     
+                     <main className="list-course-grid">
+                         <article>
+                         <img src="https://picsum.photos/600/400?image=1083" alt="Sample photo" className="sample-photo"/>
+                         <div className="course-text">
+                             <p className="text-center">Japanese for Beginners
+                             <br/>Saint Petersburg State University</p>
+                             <button onClick={()=>this.viewEnroll("Japanese for Beginners")} type="button" className="btn btn-outline btn-block" id="btn-enroll1">ENROLL NOW</button>
+                      
+                         </div>
+                         </article>
+                         
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1063" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">How to Meditate ?<br/>
+                                 New York University</p>
+                                 
+                                 <button onClick={()=>this.viewEnroll("How to Meditate ?")} type="button" className="btn btn-outline btn-block" id="btn-enroll2">ENROLL NOW</button>
+                             </div>
+                                       
+                         </article>
+ 
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1056" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">Michigan Programming for Everybody
+                                 <br/>University of Michigan</p>                             
+                                 <button onClick={()=>this.viewEnroll("Michigan Programming for Everybody")} type="button" className="btn btn-outline btn-block" id="btn-enroll3">ENROLL NOW</button>                                  
+                             </div>
+                             
+                         </article>
+ 
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1050" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">Web Development<br/>
+                                 University of Michigan </p>  
+                                 <button onClick={()=>this.viewEnroll("Web Development")} type="button" className="btn btn-outline btn-block" id="btn-enroll4">ENROLL NOW</button>             
+                             </div>
+ 
+                         </article>
+ 
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1041" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">Fundamentals of Finance
+                                 <br/>University of Michigan</p> 
+                                 <button onClick={()=>this.viewEnroll("Fundamentals of Finance")} type="button" className="btn btn-outline btn-block" id="btn-enroll5">ENROLL NOW</button>                  
+                             </div>
+                         </article>
+ 
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1015" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">The Science of Well Being
+                                 <br/>University of Michigan</p>  
+                                 <button onClick={()=>this.viewEnroll("The Science of Well Being")} type="button" className="btn btn-outline btn-block" id="btn-enroll6">ENROLL NOW</button>
+                                 
+       
+                 
+                             </div>
+                         </article>
+                         
+             </main>
+             {/* <Footer></Footer> */}
+             </div>          
+             
+
+             <div className="container">
+                     
+                    <main className="list-course-grid">
+                        <article>
+                        <img src="https://picsum.photos/600/400?image=1083" alt="Sample photo" className="sample-photo"/>
+                        <div className="course-text">
+                            <p className="text-center">Japanese for Beginners
+                            <br/>Saint Petersburg State University</p>
+                            <button onClick={()=>this.viewEnroll("Japanese for Beginners")} type="button" className="btn btn-outline btn-block" id="btn-enroll1">ENROLL NOW</button>
+                     
+                        </div>
+                        </article>
+                        
+                        <article>
+                            <img src="https://picsum.photos/600/400?image=1063" alt="Sample photo" className="sample-photo"/>
+                            <div className="course-text">
+                            <p className="text-center">How to Meditate ?<br/>
+                                New York University</p>
+                                
+                                <button onClick={()=>this.viewEnroll("How to Meditate ?")} type="button" className="btn btn-outline btn-block" id="btn-enroll2">ENROLL NOW</button>
+                            </div>
+                                      
+                        </article>
+
+                        <article>
+                            <img src="https://picsum.photos/600/400?image=1056" alt="Sample photo" className="sample-photo"/>
+                            <div className="course-text">
+                            <p className="text-center">Michigan Programming for Everybody
+                                <br/>University of Michigan</p>                             
+                                <button onClick={()=>this.viewEnroll("Michigan Programming for Everybody")} type="button" className="btn btn-outline btn-block" id="btn-enroll3">ENROLL NOW</button>                                  
+                            </div>
+                            
+                        </article>
+
+                        <article>
+                            <img src="https://picsum.photos/600/400?image=1050" alt="Sample photo" className="sample-photo"/>
+                            <div className="course-text">
+                            <p className="text-center">Web Development<br/>
+                                University of Michigan </p>  
+                                <button onClick={()=>this.viewEnroll("Web Development")} type="button" className="btn btn-outline btn-block" id="btn-enroll4">ENROLL NOW</button>             
+                            </div>
+
+                        </article>
+
+                        <article>
+                            <img src="https://picsum.photos/600/400?image=1041" alt="Sample photo" className="sample-photo"/>
+                            <div className="course-text">
+                            <p className="text-center">Fundamentals of Finance
+                                <br/>University of Michigan</p> 
+                                <button onClick={()=>this.viewEnroll("Fundamentals of Finance")} type="button" className="btn btn-outline btn-block" id="btn-enroll5">ENROLL NOW</button>                  
+                            </div>
+                        </article>
+
+                        <article>
+                            <img src="https://picsum.photos/600/400?image=1015" alt="Sample photo" className="sample-photo"/>
+                            <div className="course-text">
+                            <p className="text-center">The Science of Well Being
+                                <br/>University of Michigan</p>  
+                                <button onClick={()=>this.viewEnroll("The Science of Well Being")} type="button" className="btn btn-outline btn-block" id="btn-enroll6">ENROLL NOW</button>
+                                
+      
+                
+                            </div>
+                        </article>
+                        
+            </main>
+            {/* <Footer></Footer> */}
+            </div>          
+            <div className="container">
+                     
+                     <main className="list-course-grid">
+                         <article>
+                         <img src="https://picsum.photos/600/400?image=1083" alt="Sample photo" className="sample-photo"/>
+                         <div className="course-text">
+                             <p className="text-center">Japanese for Beginners
+                             <br/>Saint Petersburg State University</p>
+                             <button onClick={()=>this.viewEnroll("Japanese for Beginners")} type="button" className="btn btn-outline btn-block" id="btn-enroll1">ENROLL NOW</button>
+                      
+                         </div>
+                         </article>
+                         
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1063" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">How to Meditate ?<br/>
+                                 New York University</p>
+                                 
+                                 <button onClick={()=>this.viewEnroll("How to Meditate ?")} type="button" className="btn btn-outline btn-block" id="btn-enroll2">ENROLL NOW</button>
+                             </div>
+                                       
+                         </article>
+ 
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1056" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">Michigan Programming for Everybody
+                                 <br/>University of Michigan</p>                             
+                                 <button onClick={()=>this.viewEnroll("Michigan Programming for Everybody")} type="button" className="btn btn-outline btn-block" id="btn-enroll3">ENROLL NOW</button>                                  
+                             </div>
+                             
+                         </article>
+ 
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1050" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">Web Development<br/>
+                                 University of Michigan </p>  
+                                 <button onClick={()=>this.viewEnroll("Web Development")} type="button" className="btn btn-outline btn-block" id="btn-enroll4">ENROLL NOW</button>             
+                             </div>
+ 
+                         </article>
+ 
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1041" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">Fundamentals of Finance
+                                 <br/>University of Michigan</p> 
+                                 <button onClick={()=>this.viewEnroll("Fundamentals of Finance")} type="button" className="btn btn-outline btn-block" id="btn-enroll5">ENROLL NOW</button>                  
+                             </div>
+                         </article>
+ 
+                         <article>
+                             <img src="https://picsum.photos/600/400?image=1015" alt="Sample photo" className="sample-photo"/>
+                             <div className="course-text">
+                             <p className="text-center">The Science of Well Being
+                                 <br/>University of Michigan</p>  
+                                 <button onClick={()=>this.viewEnroll("The Science of Well Being")} type="button" className="btn btn-outline btn-block" id="btn-enroll6">ENROLL NOW</button>
+                                 
+       
+                 
+                             </div>
+                         </article>
+                         
+             </main>
+             
+             </div> 
+             <Footer></Footer>
 
 {/* <!-- Modal --> */}
                     {/* <div className="container">

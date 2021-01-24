@@ -1,4 +1,5 @@
 import React, {Component}  from 'react'
+import Author from '../author/author.js'
 import './contact.css'
 class Contact extends React.Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class Contact extends React.Component {
         console.log(this.state);
         e.preventDefault();
 
-        fetch('http://localhost:3002/send', {
+        fetch('http://localhost:3001/send', {
             method: "POST",
             body: JSON.stringify(this.state),
             headers: {
@@ -40,6 +41,7 @@ class Contact extends React.Component {
     render() {
       return(
         <div>
+          <Author></Author>
             <div>
                 <div className="background">
                     <div className="container">

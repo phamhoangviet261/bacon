@@ -8,6 +8,7 @@ import Payment from './containers/payment-page/payment.js'
 import Registration from './containers/register-page/register.js'
 import Exam from './components/exam/exam.js'
 import Book from './components/book/book.js'
+import Contact from './components/contact/contact.js'
 
 import {Switch, Route, BrowserRouter, NavLink} from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
@@ -51,6 +52,7 @@ function App() {
           <div className="content">
             <Switch>
               <Route exact path="/" component={() => <ListCourse isLogin={false} />}/>
+              <Route exact path="/bacon" component={() => <ListCourse isLogin={false} />}/>
               <Route exact path="/home" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/dashboard" component={Dashboard} />
@@ -61,6 +63,7 @@ function App() {
               <Route exact path="/registration" component={Registration} />
               <Route exact path="/exam" component={Exam} />
               <Route exact path="/book" component={Book} />
+              <Route exact path="/aboutus" component={Contact} />
             </Switch>
           </div>
         </div>

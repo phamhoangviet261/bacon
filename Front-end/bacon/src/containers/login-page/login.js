@@ -40,7 +40,7 @@ function Login(props) {
       setError("Dang nhap thanh cong.");
       console.log(global.isLogin);
       MySwal.fire({
-        title: <p>Login Successfully</p>,
+        title: <p>    Login Successfully</p>,
       }).then(function(isConfirm) {
         if (isConfirm) {
         window.location = "http://localhost:3001/list"
@@ -63,9 +63,9 @@ function Login(props) {
           <AuthButton />
 
           <ul>
-            <li>
-              <Link to="/list">Register</Link>
-            </li>
+            {/* <li>
+              <Link to="/">Register</Link>
+            </li> */}
             <li>
               <Link to="/protected">Login</Link>
             </li>
@@ -84,6 +84,7 @@ function Login(props) {
           </Switch>
         </div>
       </Router>
+      <LoginPage />
     </ProvideAuth>
     <div id="login-form" className="login-form" style={{display: "none"}}>
       Login<br /><br />

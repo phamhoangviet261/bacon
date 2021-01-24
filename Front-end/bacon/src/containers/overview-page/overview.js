@@ -53,7 +53,7 @@ class Overview extends Component{
     back(){
         let x = document.getElementById("btnBack");
         x.addEventListener('click', () => {
-            setInterval(window.location = "http://localhost:3001/list", 10);
+            setInterval(window.location = "http://localhost:3001/list");
         })
     }
     next(){
@@ -66,6 +66,11 @@ class Overview extends Component{
               }).then(function(isConfirm) {
                 if (isConfirm) {
                 window.location = "http://localhost:3001/payment"
+                } else {
+                    MySwal.fire({
+                        title: <p>Okay....</p>,
+                        showCancelButton: true
+                      })
                 }}
               )
         })
@@ -90,7 +95,7 @@ class Overview extends Component{
                                 key={item}
                                 onClick={() => this.changeWeek(item)}
                                 >
-                                    <p>Week</p>
+                                    <p>Week {item}</p>
                                 </div>
                             ))
                         }
@@ -151,6 +156,12 @@ const Week = (props) => (
         </div>
     </div>
 )
+
+const Grade = (props) => {
+    <div id="overview-container-grade">
+
+    </div>
+}
 
 
 

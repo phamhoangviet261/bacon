@@ -39,7 +39,7 @@ class Payment extends Component {
         }
     }
     submitPayment(){
-        alert("cccccccccc");
+        alert("Done");
           window.location.href = "http://localhost:3001/course"
     }
     render(){
