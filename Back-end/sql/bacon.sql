@@ -14,12 +14,10 @@
 
 
 -- Dumping database structure for CNPM18_COURSERA_DATABASE
-DROP DATABASE IF EXISTS `CNPM18_COURSERA_DATABASE`;
 CREATE DATABASE IF NOT EXISTS `CNPM18_COURSERA_DATABASE` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `CNPM18_COURSERA_DATABASE`;
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Answers
-DROP TABLE IF EXISTS `Answers`;
 CREATE TABLE IF NOT EXISTS `Answers` (
   `id_question` int NOT NULL AUTO_INCREMENT,
   `content` longtext COLLATE utf8mb4_unicode_ci,
@@ -30,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `Answers` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Courses
-DROP TABLE IF EXISTS `Courses`;
 CREATE TABLE IF NOT EXISTS `Courses` (
   `id_course` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -49,7 +46,6 @@ CREATE TABLE IF NOT EXISTS `Courses` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.CoursesSold
-DROP TABLE IF EXISTS `CoursesSold`;
 CREATE TABLE IF NOT EXISTS `CoursesSold` (
   `id_member` int NOT NULL,
   `id_course` int NOT NULL,
@@ -66,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `CoursesSold` (
 -- Data exporting was unselected.
 
 -- Dumping structure for procedure CNPM18_COURSERA_DATABASE.create_question
-DROP PROCEDURE IF EXISTS `create_question`;
 DELIMITER //
 CREATE PROCEDURE `create_question`(
 	IN `id_test` INT,
@@ -75,13 +70,12 @@ CREATE PROCEDURE `create_question`(
 )
 BEGIN
 	
-   insert into Question(id_test, content, score) values (id_test, content, score);
+   insert into Questions(id_test, content, score) values (id_test, content, score);
    insert into Answers(content) values (NULL);
 END//
 DELIMITER ;
 
 -- Dumping structure for procedure CNPM18_COURSERA_DATABASE.create_user
-DROP PROCEDURE IF EXISTS `create_user`;
 DELIMITER //
 CREATE PROCEDURE `create_user`(
 	IN `username` varchar(255),
@@ -97,7 +91,6 @@ END//
 DELIMITER ;
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Documents
-DROP TABLE IF EXISTS `Documents`;
 CREATE TABLE IF NOT EXISTS `Documents` (
   `id_document` int NOT NULL AUTO_INCREMENT,
   `id_course` int DEFAULT NULL,
@@ -113,7 +106,6 @@ CREATE TABLE IF NOT EXISTS `Documents` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Lessons
-DROP TABLE IF EXISTS `Lessons`;
 CREATE TABLE IF NOT EXISTS `Lessons` (
   `id_lesson` int NOT NULL AUTO_INCREMENT,
   `id_course` int DEFAULT NULL,
@@ -128,7 +120,6 @@ CREATE TABLE IF NOT EXISTS `Lessons` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Members
-DROP TABLE IF EXISTS `Members`;
 CREATE TABLE IF NOT EXISTS `Members` (
   `id_member` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -144,7 +135,6 @@ CREATE TABLE IF NOT EXISTS `Members` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.MembersAnswers
-DROP TABLE IF EXISTS `MembersAnswers`;
 CREATE TABLE IF NOT EXISTS `MembersAnswers` (
   `id_member` int NOT NULL,
   `id_question` int NOT NULL,
@@ -160,7 +150,6 @@ CREATE TABLE IF NOT EXISTS `MembersAnswers` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.MembersInfo
-DROP TABLE IF EXISTS `MembersInfo`;
 CREATE TABLE IF NOT EXISTS `MembersInfo` (
   `id_member` int NOT NULL AUTO_INCREMENT,
   `date_birth` date DEFAULT NULL,
@@ -174,7 +163,6 @@ CREATE TABLE IF NOT EXISTS `MembersInfo` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.MembersScore
-DROP TABLE IF EXISTS `MembersScore`;
 CREATE TABLE IF NOT EXISTS `MembersScore` (
   `id_member` int NOT NULL,
   `id_test` int NOT NULL,
@@ -188,7 +176,6 @@ CREATE TABLE IF NOT EXISTS `MembersScore` (
 -- Data exporting was unselected.
 
 -- Dumping structure for function CNPM18_COURSERA_DATABASE.member_answer
-DROP FUNCTION IF EXISTS `member_answer`;
 DELIMITER //
 CREATE FUNCTION `member_answer`(
 	`id_member` INT,
@@ -216,7 +203,6 @@ END//
 DELIMITER ;
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Questions
-DROP TABLE IF EXISTS `Questions`;
 CREATE TABLE IF NOT EXISTS `Questions` (
   `id_question` int NOT NULL AUTO_INCREMENT,
   `id_test` int DEFAULT NULL,
@@ -230,7 +216,6 @@ CREATE TABLE IF NOT EXISTS `Questions` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Reviews
-DROP TABLE IF EXISTS `Reviews`;
 CREATE TABLE IF NOT EXISTS `Reviews` (
   `id_member` int NOT NULL,
   `id_course` int NOT NULL,
@@ -245,7 +230,6 @@ CREATE TABLE IF NOT EXISTS `Reviews` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Tests
-DROP TABLE IF EXISTS `Tests`;
 CREATE TABLE IF NOT EXISTS `Tests` (
   `id_test` int NOT NULL AUTO_INCREMENT,
   `id_course` int DEFAULT NULL,
@@ -260,7 +244,6 @@ CREATE TABLE IF NOT EXISTS `Tests` (
 -- Data exporting was unselected.
 
 -- Dumping structure for trigger CNPM18_COURSERA_DATABASE.MembersAnswers_after_insert
-DROP TRIGGER IF EXISTS `MembersAnswers_after_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `MembersAnswers_after_insert` AFTER INSERT ON `MembersAnswers` FOR EACH ROW BEGIN
@@ -291,7 +274,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for trigger CNPM18_COURSERA_DATABASE.MembersAnswers_after_update
-DROP TRIGGER IF EXISTS `MembersAnswers_after_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `MembersAnswers_after_update` AFTER UPDATE ON `MembersAnswers` FOR EACH ROW BEGIN
