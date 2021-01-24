@@ -4,7 +4,7 @@ const db = require('../db');
 
 module.exports = {
     show: async (req, res) => {
-        let sql = 'select id_document, name, length, content ' +
+        let sql = 'select id_document, type, date_upload, content ' +
         'from Documents where id_course =  ?';
 
         const values = [req.params.id_course];
@@ -31,7 +31,7 @@ module.exports = {
     },
 
     create: async (req, res) => {
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'type')) {
             res.status(400)
                 .type('json')
                 .json({
@@ -46,7 +46,7 @@ module.exports = {
 
             return;
         }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'date_upload')) {
             res.status(400)
                 .type('json')
                 .json({
@@ -77,12 +77,12 @@ module.exports = {
             return;
         }
 
-        const sql = 'insert into Documents (`name`, `length`, `content`, `id_course`) ' +
+        const sql = 'insert into Documents (`type`, `date_upload`, `content`, `id_course`) ' +
         'values (?, ?, ?, ?)';
         try {
             await db.execute(sql, [
-                req.body.name,
-                req.body.length,
+                req.body.type,
+                req.body.date_upload,
                 req.body.content,
                 req.params.id_course,
             ]);
@@ -126,7 +126,7 @@ module.exports = {
                     });
             }
 
-            if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'type')) {
                 res.status(400)
                     .type('json')
                     .json({
@@ -141,7 +141,7 @@ module.exports = {
 
                 return;
             }
-            if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'date_upload')) {
                 res.status(400)
                     .type('json')
                     .json({
@@ -172,8 +172,8 @@ module.exports = {
                 return;
             }
 
-            sql = 'update Documents set `name` = ?, ' +
-        '`length` = ?, ' +
+            sql = 'update Documents set `type` = ?, ' +
+        '`date_upload` = ?, ' +
         '`content` = ?, ' +
         'where id_course = ? AND id_document = ?';
 
