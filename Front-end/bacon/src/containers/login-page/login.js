@@ -25,7 +25,7 @@ function Login(props) {
     setLoading(true);
     console.log(username.value + password.value)
     try {
-    let response = await axios.post('http://127.0.0.1:3000/members/login', { 
+    let response = await axios.post('http://vinaworld.dynu.net/api/members/login', { 
       
         username: username.value, 
         password: password.value,

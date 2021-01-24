@@ -10,6 +10,10 @@ import './header-style.js'
 class Header extends React.Component{
     constructor(props){
         super(props)
+        alert(props.isLogin)
+        if(props.isLogin){
+            
+        }
     }
 
     myFunction() {
@@ -41,20 +45,45 @@ class Header extends React.Component{
           })
           
           if (formValues) {
-            MySwal.fire(JSON.stringify(formValues))
+            MySwal.fire(JSON.stringify(formValues));
+            const x = JSON.stringify(formValues);
+            console.log(x)
+            const doitnow = () => {
+                alert("nguuu");
+                axios.post('http://127.0.0.1:3000/members/register', {
+                    x
+                })  .catch(function (error) {
+                        if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log(error.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                    });
+            }
           }
     }
 
     componentDidMount(){
-        console.log(this.props.isLogin);
+        console.log("Did mount: " +this.props.isLogin);
         document.getElementById("nav-header").style.display = "none";
         document.getElementById("btn-header").style.marginLeft = "400px";
-        if(this.props.isLogin=="true"){
+        if(this.props.isLogin==true){
             console.log("Logged")
             document.getElementById("btn-login").style.display = "none";
             document.getElementById("btn-signup").style.display = "none";
             document.getElementById("btn-user").style.display = "block";
-        } else {
+        } else if(this.props.isLogin==false) {
             document.getElementById("btn-login").style.display = "block";
             document.getElementById("btn-signup").style.display = "block";
             document.getElementById("btn-user").style.display = "none";

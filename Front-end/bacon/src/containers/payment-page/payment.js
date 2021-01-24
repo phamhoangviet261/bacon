@@ -5,7 +5,8 @@ import './payment.css'
 class Payment extends Component {
     constructor(props){
         super(props)
-        this.show_hide = this.show_hide.bind(this)
+        this.show_hide = this.show_hide.bind(this);
+        this.submitPayment = this.submitPayment.bind(this);
     }
 
     show_hide(att){
@@ -38,10 +39,10 @@ class Payment extends Component {
                 'No, cancel it!',
                 'Yes, I am sure!'
               ],
-          }).then(function(isConfirm) {
-            if (isConfirm) {
-            }}
+          }).then(
+                window.location = "http://localhost:3001/course"
           );
+          window.location = "http://localhost:3001/course"
     }
     render(){
         return (

@@ -1,44 +1,48 @@
 import React, {Component} from "react";
 import axios from 'axios';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import './register.css'
 class Registration extends Component {
    constructor(props){
        super(props);
-       let user = {
-        name: "",
-        email: "",
-        password: "",
-      }
       this.handleSubmit  = this.handleSubmit.bind(this);
    }
   
   handleSubmit  = async(event) =>  {
-    this.user = {
-        name: document.getElementById("reg-name").value,
-        email: document.getElementById("reg-email").value,
-        password: document.getElementById("reg-password").value,
+    const MySwal = withReactContent(Swal)
+    const { value: formValues } = await MySwal.fire({
+      title: 'Multiple inputs',
+      html:
+        '<input id="swal-input1" class="swal2-input">' +
+        '<input id="swal-input2" class="swal2-input">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input1').value,
+          document.getElementById('swal-input2').value
+        ]
       }
-      console.log(this.user);
-      alert(this.user);
-    try {
-        let response = await axios.post('http://127.0.0.1:3000/members', {        
-            "username": this.user.name,
-            "password": this.user.password,
-            "email": this.user.email
-        }
-        );
-          global.isLogin = true;
-          console.log(global.isLogin);
-          
-          
-        }
-        catch(error ) {
+    })
+    
+    if (formValues) {
+      const NewSwal = withReactContent(Swal)
+      NewSwal.fire(JSON.stringify(formValues))
+      let response = await axios.post('http://127.0.0.1:3000/members', {
+          "username": "tram",
+          "password": "huhu",
+          "email": "2222221@gmail.com"
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
           console.log(error);
-          if (error.response && error.response.status === 401) alert(error.response);
-          else console.log("Successfully")
-        };
-        alert(this.user);
-        event.preventDefault();
+        });
+    }
+    
+        
+          
   }
 
   render() {
