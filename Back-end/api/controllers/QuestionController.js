@@ -140,8 +140,8 @@ module.exports = {
             }
 
             sql = 'update Questions set `content` = ?, ' +
-        '`score` = ?, ' +
-        'where id_test = ? AND id_question  = ?';
+                    '`score` = ?, ' +
+                    'where id_test = ? AND id_question  = ?';
 
             await db.execute(sql, [
                 req.body.content,

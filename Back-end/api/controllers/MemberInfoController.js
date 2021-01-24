@@ -9,7 +9,7 @@ module.exports = {
                     ' where mem.username = ?';
 
         try {
-            const result = await db.execute(sql, [req.params.username]);
+            const [result] = await db.execute(sql, [req.params.username]);
 
             if (result.length < 1) {
                 res.status(404)
