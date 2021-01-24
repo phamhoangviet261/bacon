@@ -4,8 +4,8 @@ const db = require('../db');
 
 module.exports = {
     show: async (req, res) => {
-        let sql = 'select id_document, name, length, content ' +
-        'from Tests where id_course =  ?';
+        let sql = 'select id_document, name, type, date_upload, content ' +
+        'from Documents where id_course =  ?';
 
         const values = [req.params.id_course];
 
@@ -16,7 +16,7 @@ module.exports = {
         }
 
         try {
-            const result = await db.execute(sql, values);
+            const [result] = await db.execute(sql, values);
             res.status(200)
                 .type('json')
                 .json(result);
@@ -46,7 +46,22 @@ module.exports = {
 
             return;
         }
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'type')) {
+            res.status(400)
+                .type('json')
+                .json({
+                    message: 'Thiếu thông tin khi tạo',
+                    errors: [
+                        {
+                            message: 'Thiếu loại tài liệu',
+                            field: 'type',
+                        },
+                    ],
+                });
+
+            return;
+        }
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'date_upload')) {
             res.status(400)
                 .type('json')
                 .json({
@@ -77,12 +92,13 @@ module.exports = {
             return;
         }
 
-        const sql = 'insert into Documents (`name`, `length`, `content`, `id_course`) ' +
-        'values (?, ?, ?, ?)';
+        const sql = 'insert into Documents (`name`, `type`, `date_upload`, `content`, `id_course`) ' +
+        'values (?, ?, ?, ?, ?)';
         try {
             await db.execute(sql, [
                 req.body.name,
-                req.body.length,
+                req.body.type,
+                req.body.date_upload,
                 req.body.content,
                 req.params.id_course,
             ]);
@@ -103,10 +119,10 @@ module.exports = {
     },
 
     update: async (req, res) => {
-        let sql = 'select meminfo.id_member as "teacher_id" from MembersInfo ' +
+        let sql = 'select id_member as "teacher_id" from Courses ' +
         'where id_course = ?';
         try {
-            const result = await db.execute(sql, [req.params.id_course]);
+            const [result] = await db.execute(sql, [req.params.id_course]);
 
             if (result.length < 1) {
                 res.status(404)
@@ -141,7 +157,22 @@ module.exports = {
 
                 return;
             }
-            if (!Object.prototype.hasOwnProperty.call(req.body, 'length')) {
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'type')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi sửa',
+                        errors: [
+                            {
+                                message: 'Thiếu loại tài liệu',
+                                field: 'type',
+                            },
+                        ],
+                    });
+
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'date_upload')) {
                 res.status(400)
                     .type('json')
                     .json({
@@ -172,10 +203,12 @@ module.exports = {
                 return;
             }
 
-            sql = 'update Documents set `name` = ?, ' +
-        '`length` = ?, ' +
-        '`content` = ?, ' +
-        'where id_course = ? AND id_document = ?';
+            sql = 'update Documents set ' +
+            '`name` = ? ' +
+            '`type` = ?, ' +
+            '`date_upload` = ?, ' +
+            '`content` = ?, ' +
+            'where id_course = ? AND id_document = ?';
 
             await db.execute(sql, [
                 req.body.name,
