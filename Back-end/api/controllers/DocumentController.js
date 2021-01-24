@@ -4,7 +4,7 @@ const db = require('../db');
 
 module.exports = {
     show: async (req, res) => {
-        let sql = 'select id_document, type, date_upload, content ' +
+        let sql = 'select id_document, name, type, date_upload, content ' +
         'from Documents where id_course =  ?';
 
         const values = [req.params.id_course];
@@ -31,7 +31,7 @@ module.exports = {
     },
 
     create: async (req, res) => {
-        if (!Object.prototype.hasOwnProperty.call(req.body, 'type')) {
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
             res.status(400)
                 .type('json')
                 .json({
@@ -40,6 +40,21 @@ module.exports = {
                         {
                             message: 'Thiếu tên tài liệu',
                             field: 'name',
+                        },
+                    ],
+                });
+
+            return;
+        }
+        if (!Object.prototype.hasOwnProperty.call(req.body, 'type')) {
+            res.status(400)
+                .type('json')
+                .json({
+                    message: 'Thiếu thông tin khi tạo',
+                    errors: [
+                        {
+                            message: 'Thiếu loại tài liệu',
+                            field: 'type',
                         },
                     ],
                 });
@@ -77,10 +92,11 @@ module.exports = {
             return;
         }
 
-        const sql = 'insert into Documents (`type`, `date_upload`, `content`, `id_course`) ' +
+        const sql = 'insert into Documents (`name`, `type`, `date_upload`, `content`, `id_course`) ' +
         'values (?, ?, ?, ?)';
         try {
             await db.execute(sql, [
+                req.body.name,
                 req.body.type,
                 req.body.date_upload,
                 req.body.content,
@@ -126,7 +142,7 @@ module.exports = {
                     });
             }
 
-            if (!Object.prototype.hasOwnProperty.call(req.body, 'type')) {
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
                 res.status(400)
                     .type('json')
                     .json({
@@ -135,6 +151,21 @@ module.exports = {
                             {
                                 message: 'Thiếu tên tài liệu',
                                 field: 'name',
+                            },
+                        ],
+                    });
+
+                return;
+            }
+            if (!Object.prototype.hasOwnProperty.call(req.body, 'type')) {
+                res.status(400)
+                    .type('json')
+                    .json({
+                        message: 'Thiếu thông tin khi sửa',
+                        errors: [
+                            {
+                                message: 'Thiếu loại tài liệu',
+                                field: 'type',
                             },
                         ],
                     });
@@ -172,10 +203,12 @@ module.exports = {
                 return;
             }
 
-            sql = 'update Documents set `type` = ?, ' +
-        '`date_upload` = ?, ' +
-        '`content` = ?, ' +
-        'where id_course = ? AND id_document = ?';
+            sql = 'update Documents set ' +
+            '`name` = ? ' +
+            '`type` = ?, ' +
+            '`date_upload` = ?, ' +
+            '`content` = ?, ' +
+            'where id_course = ? AND id_document = ?';
 
             await db.execute(sql, [
                 req.body.name,

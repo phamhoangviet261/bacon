@@ -100,13 +100,14 @@ DROP TABLE IF EXISTS `Documents`;
 CREATE TABLE IF NOT EXISTS `Documents` (
   `id_document` int NOT NULL AUTO_INCREMENT,
   `id_course` int DEFAULT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_upload` date DEFAULT NULL,
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_document`),
   KEY `fk_Documents_Lessons_idx` (`id_course`) USING BTREE,
   CONSTRAINT `fk_Documents_Courses` FOREIGN KEY (`id_course`) REFERENCES `Courses` (`id_course`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
