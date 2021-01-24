@@ -26,7 +26,7 @@ class Header extends React.Component{
         //window.location = "http://localhost:3001/registration"
         const MySwal = withReactContent(Swal)
         const { value: formValues } = await MySwal.fire({
-            title: 'Multiple inputs',
+            title: 'Register on BACON',
             html:
               '<p>Your name:<p>' +
               '<input id="swal-input1" class="swal2-input">' +

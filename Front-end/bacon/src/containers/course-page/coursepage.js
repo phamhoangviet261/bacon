@@ -154,8 +154,8 @@ const Lesson = props => (
         </div>
         <div className="menu-lesson">
             <div className="video-lesson" onClick={props.showVideo}><p>Watch Video</p></div>
-            <div className="test-lesson" onClick={props.showBook}><p>Do The Test</p></div>
-            <div className="book-lesson" onClick={props.showTest}><p>Reading Book</p></div>
+            <div className="test-lesson" onClick={props.showBook}><p>Reading Book</p></div>
+            <div className="book-lesson" onClick={props.showTest}><p>Do The Test</p></div>
         </div>
     </div>
 );
@@ -163,12 +163,14 @@ const Lesson = props => (
 const Book = props => (
     <div className="book">
         <h2>Data Structures and Algorithms with JavaScript</h2>
+        <Link to="/book"><button>Read it</button></Link>
     </div>
 );
 
 const Test = props => (
     <div className="test">
         <h2>Test for Data Structures and Algorithms with JavaScript</h2>
+        <Link to="/exam"><button>Do it</button></Link>
     </div>
 );
 

@@ -1,4 +1,5 @@
 import React, {Component } from 'react'
+import { Link } from 'react-router-dom';
 // import classnames from 'classnames'; {/* cái này là để passing in class name */}
 import './exam.css'
 
@@ -48,6 +49,7 @@ class Exam extends Component{
     render() {
         return(
             <div className="exam">
+                <Link to="/course"><button>Back</button></Link>
                 <h1>{this.state.lesson}</h1>
                 <hr/>
                 {this.state.listQuestion.map(item => (
@@ -62,9 +64,11 @@ class Exam extends Component{
                         </Question>
                     ))}
                 <hr/>
-                <div className="exam-button-submit">
+                <Link to="/course">
+                <button className="exam-button-submit">
                     SUBMIT
-                </div>
+                </button>
+                </Link>
                
             </div>
         )

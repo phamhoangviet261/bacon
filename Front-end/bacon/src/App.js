@@ -6,6 +6,9 @@ import ListCourse from './components/listCourse/listCourse.js'
 import Overview from './containers/overview-page/overview.js'
 import Payment from './containers/payment-page/payment.js'
 import Registration from './containers/register-page/register.js'
+import Exam from './components/exam/exam.js'
+import Book from './components/book/book.js'
+
 import {Switch, Route, BrowserRouter, NavLink} from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
@@ -56,6 +59,8 @@ function App() {
               <Route exact path="/list" component={() => <ListCourse isLogin={true} />}/>
               <Route exact path="/payment" component={Payment} />
               <Route exact path="/registration" component={Registration} />
+              <Route exact path="/exam" component={Exam} />
+              <Route exact path="/book" component={Book} />
             </Switch>
           </div>
         </div>
