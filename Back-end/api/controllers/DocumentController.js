@@ -93,7 +93,7 @@ module.exports = {
         }
 
         const sql = 'insert into Documents (`name`, `type`, `date_upload`, `content`, `id_course`) ' +
-        'values (?, ?, ?, ?)';
+        'values (?, ?, ?, ?, ?)';
         try {
             await db.execute(sql, [
                 req.body.name,
