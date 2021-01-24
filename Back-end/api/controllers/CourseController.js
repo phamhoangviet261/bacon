@@ -10,7 +10,7 @@ const code = () => {
 };
 module.exports = {
     middleware: (req, res, next) => {
-        try {
+        /* try {
             if (!req.cookies.token) {
                 res.status(401)
                     .type('json')
@@ -28,7 +28,8 @@ module.exports = {
                 .json({
                     message: 'Xác thực thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
                 });
-        }
+        } */
+        next();
     },
 
     show: async (req, res) => {
@@ -37,7 +38,7 @@ module.exports = {
         'c.length as "length", c.price as "price", meminfo.id_member as "teacher_id", meminfo.name as "teacher_name"' +
         'from Courses c join MembersInfo meminfo on c.teacher = meminfo.id_member';
             let result;
-            if (!Object.prototype.hasOwnProperty.call(req.params, 'id_course')) {
+            if (Object.prototype.hasOwnProperty.call(req.params, 'id_course')) {
                 sql += ' where c.id_course = ?';
 
                 result = await db.execute(sql, [req.params.id_course]);
