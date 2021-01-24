@@ -10,7 +10,7 @@ import './header-style.js'
 class Header extends React.Component{
     constructor(props){
         super(props)
-        alert(props.isLogin)
+        //alert(props.isLogin)
         if(props.isLogin){
             
         }
@@ -22,7 +22,7 @@ class Header extends React.Component{
     logIn(){
         window.location = "http://localhost:3001/login"
     }
-    logOut = async () => {
+    signIn = async () => {
         //window.location = "http://localhost:3001/registration"
         const MySwal = withReactContent(Swal)
         const { value: formValues } = await MySwal.fire({
@@ -73,7 +73,9 @@ class Header extends React.Component{
             }
           }
     }
-
+    logOut(){
+        window.location.href = "http://localhost:3001/"
+    }
     componentDidMount(){
         console.log("Did mount: " +this.props.isLogin);
         document.getElementById("nav-header").style.display = "none";
@@ -123,14 +125,14 @@ class Header extends React.Component{
                     <div onClick={() => this.logIn()} id="btn-login" className="header-button button-login">
                         <p>Log in</p>
                     </div>
-                    <div onClick={() => this.logOut()} id="btn-signup" className="header-button button-signup">
+                    <div onClick={() => this.signIn()} id="btn-signup" className="header-button button-signup">
                         <p>Sign up</p>
                     </div>
                     <div id="btn-user"
                     className="header-button button-user"
-                    onClick={() => this.logOut(this.props.logIn)}
+                    onClick={() => this.logOut()}
                     >
-                        <p>Shiro</p>
+                        <p>Log Out</p>
                     </div>
                 </div>  
         </div>

@@ -1,4 +1,13 @@
 import React, {Component} from 'react'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect,
+    useHistory,
+    useLocation
+  } from "react-router-dom";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import './payment.css'
@@ -30,19 +39,8 @@ class Payment extends Component {
         }
     }
     submitPayment(){
-        const MySwal = withReactContent(Swal);
-        MySwal.fire({
-            title: <p>About this course</p>,
-            text: "",
-            footer: 'Copyright 2021',
-            buttons: [
-                'No, cancel it!',
-                'Yes, I am sure!'
-              ],
-          }).then(
-                window.location = "http://localhost:3001/course"
-          );
-          window.location = "http://localhost:3001/course"
+        alert("cccccccccc");
+          window.location.href = "http://localhost:3001/course"
     }
     render(){
         return (
@@ -103,7 +101,7 @@ class Payment extends Component {
                                     
                                 </div>
                             </div>
-                        <button onSubmit={()=>{return false;}} onClick={()=>this.submitPayment()} className="btn-submit" value="">Pay now</button>
+                            <Link to="/"><button onClick={()=>this.submitPayment()} className="btn-submit" value="">Pay now</button></Link>
                         <p>I agree to the Terms of Use, Refund Policy, and Privacy Policy.</p>
                         </form>
                     </div>
@@ -146,7 +144,7 @@ class Payment extends Component {
                                 </div>
                             </div>
                             
-                            <button onSubmit={()=>{return false;}} onClick={()=>this.submitPayment()} className="btn-submit" value="">Pay now</button>
+                            <Link to="/"><button onClick={()=>this.submitPayment()} className="btn-submit" value="">Pay now</button></Link>
                             <p>I agree to the Terms of Use, Refund Policy, and Privacy Policy.</p>
                         </form>
                     </div>

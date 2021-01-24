@@ -97,7 +97,7 @@ class Course extends React.Component {
         console.log("ccccccccccc");
         return (
             <div>
-                <Header logIn={this.state.loggedIn}></Header>
+                <Header isLogin={true}></Header>
                 <div className="learning-screen">
                     <div id = "screen-video">
                         <iframe src={this.state.linkVideoPlaying} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
