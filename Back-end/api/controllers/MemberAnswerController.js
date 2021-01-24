@@ -14,7 +14,7 @@ module.exports = {
             values.push(req.params.id_question);
         }
         try {
-            const result = await db.execute(sql, values);
+            const [result] = await db.execute(sql, values);
             res.status(200)
                 .type('json')
                 .json(result);
@@ -62,7 +62,7 @@ module.exports = {
 
         const sql = 'SELECT `member_answer`(?, ?, ?)';
         try {
-            const result = await db.execute(sql, [
+            const [result] = await db.execute(sql, [
                 req.body.id_member,
                 req.body.id_question,
                 req.body.answer,
@@ -114,7 +114,7 @@ module.exports = {
 
             const sql = 'SELECT `member_answer`(?, ?, ?)';
 
-            const result = await db.execute(sql, [
+            const [result] = await db.execute(sql, [
                 req.params.id_member,
                 req.params.id_question,
                 req.body.answer,

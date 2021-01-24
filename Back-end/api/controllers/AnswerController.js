@@ -10,7 +10,7 @@ module.exports = {
 
             const values = [req.params.id_question];
 
-            const result = await db.execute(sql, values);
+            const [result] = await db.execute(sql, values);
             res.status(200)
                 .type('json')
                 .json(result);

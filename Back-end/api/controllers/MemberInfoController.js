@@ -3,32 +3,6 @@ const jwt = require('jsonwebtoken');
 const db = require('./../db');
 
 module.exports = {
-    middleware: (req, res, next) => {
-        let payload;
-        try {
-            if (!req.cookies.token) {
-                res.status(401)
-                    .type('json')
-                    .json({
-                        message: 'Thất bại khi xác thực. Đề nghị đăng nhập lại',
-                    });
-                return;
-            }
-
-            payload = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
-            // không trùng username thì huỷ
-            if (req.params.username !== payload.username) {
-                return;
-            }
-            next();
-        } catch (e) {
-            res.status(500)
-                .type('json')
-                .json({
-                    message: 'Xác thực thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
-                });
-        }
-    },
 
     show: async (req, res) => {
         const sql = 'select name, sex, date_birth, date_registration from MembersInfo info JOIN Members mem ON info.id_member = mem.id_member' +
@@ -72,6 +46,34 @@ module.exports = {
     },
 
     edit: async (req, res) => {
+        let payload;
+        try {
+            if (!req.cookies.token) {
+                res.status(401)
+                    .type('json')
+                    .json({
+                        message: 'Thất bại khi xác thực. Đề nghị đăng nhập lại',
+                    });
+                return;
+            }
+
+            payload = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            // không trùng username thì huỷ
+            if (req.params.username !== payload.username) {
+                res.status(403)
+                    .type('json')
+                    .json({
+                        message: 'Không có quyền',
+                    });
+                return;
+            }
+        } catch (e) {
+            res.status(500)
+                .type('json')
+                .json({
+                    message: 'Xác thực thông tin thất bại. Xin hãy liên hệ bộ phận kĩ thuật để được hỗ trợ',
+                });
+        }
         if (!Object.prototype.hasOwnProperty.call(req.body, 'name')) {
             res.status(400)
                 .type('json')

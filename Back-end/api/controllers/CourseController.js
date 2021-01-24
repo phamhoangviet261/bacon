@@ -41,16 +41,15 @@ module.exports = {
             if (Object.prototype.hasOwnProperty.call(req.params, 'id_course')) {
                 sql += ' where c.id_course = ?';
 
-                result = await db.execute(sql, [req.params.id_course]);
+                [result] = await db.execute(sql, [req.params.id_course]);
 
                 res.status(200)
                     .type('json')
-                    .json(result);
+                    .json(result[0]);
                 return;
             }
 
-            result = await db.execute(sql);
-
+            [result] = await db.execute(sql);
             res.status(200)
                 .type('json')
                 .json(result);
@@ -160,7 +159,7 @@ module.exports = {
 
         let result;
         try {
-            result = db.execute(sql, [req.params.id_course]);
+            [result] = db.execute(sql, [req.params.id_course]);
 
             if (result.length < 1) {
                 res.status(404)

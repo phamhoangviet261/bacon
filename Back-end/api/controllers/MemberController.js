@@ -60,7 +60,7 @@ module.exports = {
         try {
             const sql = 'select id_member, password from Members where username = ?';
 
-            const result = await db.execute(sql, [req.body.username]);
+            const [result] = await db.execute(sql, [req.body.username]);
             if (result.length < 1) {
                 res.status(404)
                     .type('json')
@@ -76,7 +76,7 @@ module.exports = {
 
             const password = hashPassword(req.body.password);
             // username là unique key nên chỉ trả về 1 item
-            if (result[0]['0'].password !== password) {
+            if (result[0].password !== password) {
                 res.status(400)
                     .type('json')
                     .json({

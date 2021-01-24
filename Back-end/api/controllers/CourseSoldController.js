@@ -11,7 +11,7 @@ module.exports = {
                 'from Courses c join MembersInfo meminfo on c.teacher = meminfo.id_member ' +
                 'where c.id_course = ?';
 
-                const result = await db.execute(sql, [req.params.id_course]);
+                const [result] = await db.execute(sql, [req.params.id_course]);
                 res.status(200)
                     .type('json')
                     .json(result);
@@ -24,7 +24,7 @@ module.exports = {
                 'from CoursesSold cs ' +
                 'where cs.id_member = ? ';
 
-                const result = await db.execute(sql, [req.params.id_member]);
+                const [result] = await db.execute(sql, [req.params.id_member]);
                 res.status(200)
                     .type('json')
                     .json(result);

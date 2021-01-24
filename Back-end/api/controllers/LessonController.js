@@ -16,7 +16,7 @@ module.exports = {
             value.push(req.params.id_lesson);
         }
         try {
-            const result = await db.execute(sql, value);
+            const [result] = await db.execute(sql, value);
             res.status(200)
                 .type('json')
                 .json(result);
@@ -106,7 +106,7 @@ module.exports = {
         let sql = 'select meminfo.id_member as "teacher_id" from MembersInfo ' +
         'where id_course = ?';
         try {
-            const result = await db.execute(sql, [req.params.id_course]);
+            const [result] = await db.execute(sql, [req.params.id_course]);
 
             if (result.length < 1) {
                 res.status(404)
@@ -173,9 +173,9 @@ module.exports = {
             }
 
             sql = 'update Lessons set `name` = ?, ' +
-        '`length` = ?, ' +
-        '`content` = ?, ' +
-        'where id_course = ? AND id_lesson = ?';
+                '`length` = ?, ' +
+                '`content` = ?, ' +
+                'where id_course = ? AND id_lesson = ?';
 
             await db.execute(sql, [
                 req.body.name,
