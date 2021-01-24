@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         vinaworld.dynu.net
--- Server version:               8.0.22 - MySQL Community Server - GPL
+-- Server version:               8.0.23 - MySQL Community Server - GPL
 -- Server OS:                    Linux
--- HeidiSQL Version:             11.1.0.6116
+-- HeidiSQL Version:             11.2.0.6213
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `Courses` (
   UNIQUE KEY `code_UNIQUE` (`code`),
   KEY `fk_Courses_Members_idx` (`teacher`),
   CONSTRAINT `fk_Courses_Members` FOREIGN KEY (`teacher`) REFERENCES `Members` (`id_member`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `Lessons` (
   PRIMARY KEY (`id_lesson`),
   KEY `fk_Lessons_Courses_idx` (`id_course`),
   CONSTRAINT `fk_Lessons_Courses` FOREIGN KEY (`id_course`) REFERENCES `Courses` (`id_course`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `Members` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `fk_Members_MembersInfo1_idx` (`id_member`),
   CONSTRAINT `fk_Members_MembersInfo` FOREIGN KEY (`id_member`) REFERENCES `MembersInfo` (`id_member`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1018 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `MembersInfo` (
   `sex` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_member`),
   UNIQUE KEY `id_member_UNIQUE` (`id_member`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1018 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
@@ -245,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `Reviews` (
 -- Dumping structure for table CNPM18_COURSERA_DATABASE.Tests
 DROP TABLE IF EXISTS `Tests`;
 CREATE TABLE IF NOT EXISTS `Tests` (
-  `id_test` int NOT NULL,
+  `id_test` int NOT NULL AUTO_INCREMENT,
   `id_course` int DEFAULT NULL,
   `name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
@@ -253,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `Tests` (
   PRIMARY KEY (`id_test`),
   KEY `fk_test_lesson_idx` (`id_course`) USING BTREE,
   CONSTRAINT `fk_Tests_Courses` FOREIGN KEY (`id_course`) REFERENCES `Courses` (`id_course`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
@@ -320,6 +320,6 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
