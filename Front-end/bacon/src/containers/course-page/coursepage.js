@@ -50,7 +50,7 @@ class Course extends React.Component {
         document.getElementById("screen-test").style.display = "none";
         let link = this.state.linkVideo[parseInt(id)];
         console.log(link);
-        this.setState({
+        this.setState = ({
             linkVideoPlaying: link
           });
         console.log(this.state);
